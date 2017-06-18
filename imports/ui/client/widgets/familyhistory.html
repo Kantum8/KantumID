@@ -1,0 +1,37 @@
+<template name="familyhistory">
+  <div id="container-chart" class="order-section-content">
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>
+          {{__ "family_history"}}
+        </h2>
+      </div>
+    </div>
+    <div class={{showDepth}}>
+      {{#unless loadedCurrencies}}
+        <div class="loading-depth-chart">{{{loadingIcon}}} {{__ "loading_family"}}</div>
+      {{else}}
+        {{#if outOfSync}}
+          <div class="loading-depth-chart">(out of sync, waiting for synchronization)</div>
+        {{else}}
+          {{#if loading}}
+            <div class="loading-depth-chart">{{{loadingIcon}}} Loading offers {{loadingProgress}}%</div>
+          {{/if}}
+        {{/if}}
+      {{/unless}}
+      <canvas id="market-chart-depth" class="market-chart" width="375" height="195"></canvas>
+      {{fillDepthChart}}
+    </div>
+    <div class={{showVolume}}>
+      {{#unless loadedCurrencies}}
+        <div class="loading-depth-chart">{{{loadingIcon}}} {{__ "loading_family"}}</div>
+      {{else}}
+        {{#if loadingTradeHistory}}
+          <div class="loading-volume-chart">{{{loadingIcon}}} {{__ "loading_family"}}</div>
+        {{/if}}
+      {{/unless}}
+      <canvas id="market-chart-volume" class="market-chart" width="375" height="195"></canvas>
+      {{fillVolumeChart}}
+    </div>
+  </div>
+</template>

@@ -1,0 +1,19 @@
+<template name="noUser">
+  <div class="no-ethereum-section">
+    <img class="img-maker-logo" alt="Maker" src="logo32.svg">
+    <h1>Welcome !</h1>
+    <p>To begin, please choose a username.</p>
+      <br>
+        <form class="register" >
+          <input type="text" name="text" class="username" placeholder="Username" />
+          <button type="submit" name="button" class="btn btn-default btn-submit-add-save-username">Register</button>
+        </form>
+      <br>
+    <p>A MetaMask dialog will appear asking you to sign a dummy transaction. Transaction content should be "0xdeadbeefdeafbeef...". Do not sign if it is anything else.</p>
+  </div>
+  {{#if caca}}
+    <div className="form-loader">
+      <span>{{{loadingIcon}}} Waiting for user confirmation...</span>
+    </div>
+  {{/if}}
+</template>

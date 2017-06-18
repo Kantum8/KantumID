@@ -1,0 +1,39 @@
+<template name="networkStatus">
+  <div class="networkstatus-section">
+    <div class="col-xs-4">
+      <a href="/" class="logo"></a>
+    </div>
+
+    <div class="col-xs-9 nplr ns-aux">
+      <div class="div-connected col-xs-6 npr">
+        <p>
+          <span class="network-type">{{network}}</span>
+          {{> whatisthis section="network"}}
+        </p>
+        <p class="nsp-aux">
+          {{#unless isConnected}}
+            (not connected)
+          {{else}}
+          {{#if syncing}}
+            <span class="yellow-circle"></span>
+            (syncing {{syncingPercentage}}%)
+          {{else}}
+            {{#if outOfSync}}
+              (out of sync, waiting for synchronization)
+            {{else}}
+              {{#if loading}}
+                (loading offers {{loadingProgress}}%)
+              {{else}}
+                {{#if ready}}
+                  <span class="green-circle"></span>
+                  <span class="network-status">{{__ "connect"}}</span>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        {{/unless}}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,52 @@
+<body>
+  <div class="container">
+    {{#if and3 isConnected hasAccount connexionSigned}}
+      <div class="row row-header">
+        <section class="col-xs-6">
+          {{> networkStatus }}
+        </section>
+        <section>
+          {{> languageSelector }}
+        </section>
+        <section class="col-xs-6">
+          {{> accountSelector }}
+        </section>
+      </div>
+      <div class="row row-header row-messages">
+        {{> messages}}
+      </div>
+    <!--{{#if ready}}
+          {{#if contractExists}}-->
+      <div class="row row-tabs">
+        {{> tabs }}
+      </div>
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="myinfo">{{> myinfo}}</div>
+        <div role="tabpanel" class="tab-pane" id="reportsymptoms">{{> reportsymptoms}}</div>
+        <div role="tabpanel" class="tab-pane" id="inbox">{{> inbox}}</div>
+      </div>
+    {{else}}
+    {{#if userFound}}
+      {{> userFounD}}
+        {{#if userNotFound}}
+          {{> noUser}}
+            {{#if userSigned}}
+              {{> waitingUserGenesis}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+    {{/if}}
+    {{#unless isConnected}}
+      {{> noEthereum}}
+    {{else}}
+      {{#unless hasAccount}}
+        {{> noAccount}}
+      {{else}}
+        {{#unless or userNotFound userFound}}
+          {{> searchUser}}
+        {{/unless}}
+      {{/unless}}
+    {{/unless}}
+  </div>
+  {{> footer}}
+</body>

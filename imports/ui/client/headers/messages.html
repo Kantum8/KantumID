@@ -1,0 +1,29 @@
+<template name="messages">
+  <div class="messages">
+    {{#if updateOpen}}
+      <div class="div-message-update {{#if warningOpen}}resized{{/if}}">
+        <p class="text-success">
+          <span class="update">{{__ "welcome"}}</span>
+          <span class="close" {{b "click: closeMessage('update')"}} ></span>
+        </p>
+        <p>
+          {{__ "kantumid_desciption"}}
+        </p>
+        <!--ul>
+          <li><span>Save your health information on the blockchain.</span></li>
+        </ul-->
+      </div>
+    {{/if}}
+    {{#if warningOpen}}
+      <div class="div-message-warning {{#if updateOpen}}resized{{/if}}">
+        <p class="text-success">
+          <span class="warning">{{__ "warning"}}</span>
+          <span class="close" {{b "click: closeMessage('warning')"}}></span>
+        </p>
+        <ul>
+          <li><span>{{__ "kantumid_warning"}}</span></li>
+        </ul>
+      </div>
+    {{/if}}
+  </div>
+</template>

@@ -1,0 +1,41 @@
+<template name="myinfo">
+
+<!--  {{#if loadedCurrencies}}-->
+  <div class="row">
+    <div class="order-center">
+      <section class="order-section col-md-6 medhistory">
+        {{> searchBox }}
+        {{> searchResult}}
+        {{> medhistory title='MEDICAL HISTORY'}}
+      </section>
+    </div>
+    <div class="order-center">
+      <section class="order-section col-md-6 chart">
+        {{> familyhistory title='FAMILY HISTORY'}}
+      </section>
+    </div>
+  </div>
+  <div class="row">
+    <div class="order-center">
+      <section class="order-section col-md-6 transfer-section">
+        {{> profileinformations title='PROFILE INFORMATIONS'}}
+      </section>
+    </div>
+  </div>
+
+    <!--div class="order-center">
+      <section <class="order-section col-md-6 chart">
+        {{> profileinformations title='PROFILE INFORMATIONS'}}
+      </section>
+    </div>
+  </div>
+  {{> offermodal offer=(findOffer selectedOffer)}}
+  {{> cancelmodal offer=(findOffer selectedOffer)}}
+  {{else}}
+  <div class="row">
+    <div class="col-md-12 text-center">
+      {{{loadingIcon 'large'}}}
+    </div>
+  </div>
+  {{/if}}-->
+</template>

@@ -1,0 +1,14 @@
+<template name="languageSelector">
+  <div class="select-language">
+    <span class="select-language-container">
+      <!--select class="select-language-icon" {{b "options: optionsLanguages, value: languages, change: quoteChange"}}></select-->
+      <select id="language" name="language" class="select-language-icon">
+        <option value="" disabled selected style="display: none;">{{__ "languages"}}</option>
+        <option value="ar">عربى</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+      <span class="glyphicon glyphicon-chevron-down select-glyph" aria-hidden="true"></span>
+    </span>
+  </div>
+</template>

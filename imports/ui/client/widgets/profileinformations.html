@@ -1,0 +1,184 @@
+<template name="profileinformations">
+  <form id="profileinformations">
+    <div class="row">
+      <div class="col-lg-3">
+        <h2>
+          {{__ "profile_informations"}}
+        </h2>
+      </div>
+    </div>
+    <div>
+      <table>
+        <tbody>
+          <tr class="row-input-line">
+            <th>
+              {{__ "email"}}
+            </th>
+            <td>
+              <input type="email" class="input recipient" {{b "value: email"}}>
+            </td>
+          </tr>
+          <tr class="row-input-line">
+            <th>
+              {{__ "first_name"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: firstname"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "last_name"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: lastname"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "phone"}}
+            </th>
+            <td>
+              <input type="tel" class="input recipient" {{b "value: phone"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "gender"}}
+            </th>
+            <td>
+
+
+              <div class="gendercontainer">
+                <ul>
+                <li>
+                  <input type="radio" id="f-option" name="selector">
+                  <label for="f-option"><i class="fa fa-venus" aria-hidden="true"></i> {{__ "female"}}</label>
+
+                  <div class="check"></div>
+                </li>
+
+                <li>
+                  <input type="radio" id="s-option" name="selector">
+                  <label for="s-option"><i class="fa fa-mars" aria-hidden="true"></i> {{__ "male"}}</label>
+
+                  <div class="check"><div class="inside"></div></div>
+                </li>
+
+                <li>
+                  <input type="radio" id="t-option" name="selector">
+                  <label for="t-option"><i class="fa fa-neuter" aria-hidden="true"></i> {{__ "other"}}</label>
+
+                  <div class="check"><div class="inside"></div></div>
+                </li>
+              </ul>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "address"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: address"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "city"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: city"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "state"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: state"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "zipcode"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: zipcode"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "birthday"}}
+            </th>
+            <td>
+              <input type="date" class="input recipient" {{b "value: birthday"}}>
+            </td>
+          </tr>
+
+          <tr class="row-input-line">
+            <th>
+              {{__ "soc_sec_number"}}
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: socialsecuritynumber"}}>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+            </th>
+            <td class="symptoms-button">
+              <button type="submit" value="submit" class="btn btn-default" {{b "click: updateinfo"}}>{{__ "update_info"}}</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </form>
+
+
+
+<form id="deleteaccount">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 style="color: red;">
+        {{__ "delete_account"}}
+      </h2>
+    </div>
+  </div>
+  <div>
+  <table>
+    <tbody>
+      <tr class="row-input-line">
+        <th>
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{__ "action_irreverssible"}}
+        </th>
+        <td>
+          <input type="text" class="input recipient" {{b "value: delete"}} placeholder="{{__ "sentance_confirm_delete"}}">
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>
+        </th>
+        <td class="syptoms-button">
+          <button type="submit" value="submit" class="btn btn-default btn-submit-add-delete" {{b "click: updateinfo"}}>{{__ "delete_account"}}</button>
+        </td>
+      </tr>
+    </tfoot>
+    </table>
+  </div>
+</form>
+  <script src='https://use.fontawesome.com/6b73d28b08.js'></script>
+</template>

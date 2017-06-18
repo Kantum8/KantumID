@@ -1,0 +1,42 @@
+<template name="symptoms">
+  <form id="symptoms">
+    <div class="row">
+      <div class="col-xs-10">
+        <h2>
+          YOUR SYMPTOMS
+        </h2>
+      </div>
+    </div>
+    <div>
+      <table>
+        <tbody>
+          <tr class="row-input-line">
+            <th>
+              DOCTOR
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: doctor"}}>
+            </td>
+          </tr>
+          <tr class="row-input-line">
+            <th>
+              CURRENT ILLNESSES
+            </th>
+            <td>
+              <input type="text" class="input recipient" {{b "value: currentIllnesses"}}>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>
+            </th>
+            <td class="symptoms-button">
+              <button class="btn btn-default" {{b "click: symptoms"}}>REPORT YOUR SYMPTOMS</button>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </form>
+</template>

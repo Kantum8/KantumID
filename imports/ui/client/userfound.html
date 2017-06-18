@@ -1,0 +1,20 @@
+<template name="userFounD">
+  <div class="no-ethereum-section">
+    <img class="img-maker-logo" alt="Maker" src="logo32.svg">
+    <h1>User account found</h1>
+    <br>
+    <p>
+      <br>
+      A MetaMask dialog will appear asking you to sign a dummy transaction. Transaction content should be "0xdeadbeefdeafbeef...". Do not sign if it is anything else.
+      <br>
+      Message signing is used for private/public key generation - see here for more details.
+      <br>
+      If the dialog does not appear, make sure you have the MetaMask extension installed and connected to Kovan test network
+    </p>
+  </div>
+  {{#if caca}}
+    <div className="form-loader">
+      <span>{{{loadingIcon}}} Waiting for user confirmation...</span>
+    </div>
+  {{/if}}
+</template>

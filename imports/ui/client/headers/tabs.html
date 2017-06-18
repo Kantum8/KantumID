@@ -1,0 +1,17 @@
+<template name="tabs">
+  <div class="tabs">
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="first-tab" {{b "click: changeTab"}}><a href="#myinfo" class="tab-link" aria-controls="myinfo" role="tab" data-toggle="tab">{{__ "my_info"}}</a></li>
+      <li role="presentation" class="middle-tab" {{b "click: changeTab"}}><a href="#reportsymptoms" class="tab-link" aria-controls="reportsymptoms" role="tab" data-toggle="tab">{{__ "report_symptoms"}}</a></li>
+      <li role="presentation" class="last-tab" {{b "click: changeTab"}}><a href="#inbox" class="tab-link" aria-controls="inbox" role="tab" data-toggle="tab">{{__ "inbox"}}
+        <div class="mail">
+          <strong>4</strong>
+          <span class="letter new">
+          </span>
+          <strong>4</strong>
+        </div>
+      </a></li>
+    </ul>
+  </div>
+  <!--div class="vertical-line"></div-->
+</template>

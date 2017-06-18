@@ -1,0 +1,61 @@
+<template name="medhistory">
+  <div id="container-medhistory"  class="med-section-content">
+    <div>
+      <table class="t-medhistory">
+        <!--thead>
+          <tr>
+            <th></th>
+              <th class="th-coin">COIN</th>
+              <th class="th-price">PRICE</th>
+              <th class="th-volume">DAILY VOLUME</th>
+            <th></th>
+          </tr>
+        </thead-->
+            {{#each illnessesHistory}}
+          <tbody class="tbody-scrolling">
+            <tr class="clickable" {{b "click: baseChange(this)"}}>
+              <td></td>
+            <td class="td-coin"><label for="toggle-card-1">{{this}}</label></td>
+          </tr>
+          </tbody>
+        <tfoot>
+          <input type="radio" name="cards" class="card-checkbox" id="toggle-card-1">
+
+          <div class="card">
+          	<h2><label>{{this}}</label></h2>
+            <label for="put-cards-down" class="dialog-window__button">&times;</label>
+            <p>You had pneumonia on April 13, 2017</p>
+          </div>
+
+          <input type="radio" name="cards" class="card-checkbox" id="put-cards-down">
+        </tfoot>
+            {{/each}}
+      </table>
+    </div>
+  </div>
+</template>
+
+
+<template name="searchBox">
+  <h2>
+    {{__ "medical_history"}}
+  </h2>
+  <form>
+    <input type="search" results=5 id="search-box" placeholder="{{__ "search_diseases"}}" />
+  </form>
+</template>
+
+<template name="searchResult">
+  <div id='search-result'>
+    {{#each getIllnesses}}
+    <div class="illnesses">
+      <h4 class="name">
+        <a href="{{git}}" target="_blank" id="search_result">{{{illnessesName}}}</a> <button class="btn btn-default btn-submit-add-save">{{__ "add"}}</button>
+      </h4>
+      <div class="description">
+        {{{description}}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</template>

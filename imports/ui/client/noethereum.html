@@ -1,0 +1,27 @@
+<template name="noEthereum">
+    <div class="no-ethereum-section">
+        <img class="img-maker-logo" alt="Maker" src="logo32.svg">
+        <hr class="horizontal-line">
+        <img class="img-ethereum-logo" alt="Ethereum" src="ethereum-logo.svg">
+        <h2>{{__ "no_connected_ethereum"}}</h2>
+        <p class="p-not-found">{{__ "kantumid_require_ethereum"}}</p>
+        <p class="p-use-clients">{{__ "p_use_clients"}}</p>
+        <div class="div-clients">
+            <div class="div-metamask">
+                <img class="img-logo" alt="Metamask" src="metamask-logo.svg">
+                <h2>METAMASK</h2>
+                <p><span class="align-number"><span class="numberCircle">1</span></span>{{__ "install"}} <a class="span-montserrat-semi-bold a-link" href="https://metamask.io/" target="_blank">Metamask</a></p>
+                <p><span class="align-number"><span class="numberCircle">2</span></span>{{__ "use_chrone"}} <a class="span-montserrat-semi-bold a-link" href="https://id.kantum.xyz" target="_blank">https://id.kantum</a></p>
+            </div>
+            <div class="div-mist">
+                <img class="img-logo" alt="Mist" src="mist-logo.svg">
+                <h2>MIST</h2>
+                <p><span class="align-number"><span class="numberCircle">1</span></span>{{__ "install_run"}} <a class="span-montserrat-semi-bold a-link" href="https://github.com/ethereum/mist/releases" target="_blank">Mist</a></p>
+                <p><span class="align-number"><span class="numberCircle">2</span></span>{{__ "use_mist"}} <a class="span-montserrat-semi-bold a-link" href="https://id.kantum.xyz" target="_blank">https://id.kantum</a></p>
+            </div>
+        </div>
+        <p class="p-connect-geth">{{__ "connect_also_with"}} <b>geth</b> or <b>parity</b>{{__ "advenced_configuration_needed"}}
+            <a href="https://github.com/Kantum42/KantumID/wiki#network" target="_blank">KantumID {{__ "documentation"}}</a> {{__ "for_instructions"}}.
+        </p>
+    </div>
+</template>

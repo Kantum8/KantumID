@@ -1,0 +1,7 @@
+{
+  "galaxy.meteor.com": {
+     "env": {
+       "MONGO_URL": "mongodb://meteor-galaxy:rtyui258@ds163060.mlab.com:63060/pre-alpha_kantumid"
+     }
+   }
+}
