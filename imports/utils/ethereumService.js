@@ -11,14 +11,14 @@ import bitcore from 'bitcore-lib';
 
 // KantumID contract info
 
-/*/ KantumID contract env
+// KantumID contract env
 var contractAbi =
 [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"emailId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}];
 
-var contractAddress = '0x9857b51206bedf50ef56359847b6f431f3ba2d0a';*/
+var contractAddress = '0x9857b51206bedf50ef56359847b6f431f3ba2d0a';/*
 // LemonMail contract
 var contractAbi = [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyTo","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendEmail","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"emailId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendEmail","type":"event"}];
-var contractAddress = '0x6154E4F9795387628C1a1D6A3FC0C79523D12A13';
+var contractAddress = '0x6154E4F9795387628C1a1D6A3FC0C79523D12A13';*/
 var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
 
 
@@ -101,7 +101,8 @@ var ethereumService = {
     var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({username: web3.fromAscii(data)}, {fromBlock: 0, toBlock: 'latest'});
 
     broadcastPublicKeyEvent.get(function(error, events) {
-      if(!events.length) {
+      //if(!events.length) {
+      if(typeof events.length === 'undefined') {
         return callback("User not found", null);
       } else {
         var result = {
@@ -131,7 +132,7 @@ var ethereumService = {
     },
   // Fetch replies for the email with given ID
     getEmailReplies: function(emailId, correspondentAddress, startingBlock, callback) {
-      var replyEvent = kantumidContract.SendEmail({from: correspondentAddress, inReplyToId: emailId}, {fromBlock: startingBlock, toBlock: 'latest'});
+      var replyEvent = kantumidContract.SendData({from: correspondentAddress, inReplyToId: emailId}, {fromBlock: startingBlock, toBlock: 'latest'});
 
       console.log("Getting replies for " + emailId);
 
@@ -147,7 +148,7 @@ var ethereumService = {
     },
   // Listen for the incoming emails for the given address
     watchForIncomingEmails: function(startBlock, callback) {
-      var sendEvent = kantumidContract.SendEmail({to: web3.eth.accounts[0]}, {fromBlock: startBlock, toBlock: 'latest'});
+      var sendEvent = kantumidContract.SendData({to: web3.eth.accounts[0]}, {fromBlock: startBlock, toBlock: 'latest'});
 
       console.log("Watching from block: " + startBlock);
 
