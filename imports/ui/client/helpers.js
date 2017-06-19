@@ -48,7 +48,7 @@ Template.registerHelper('connexionSigned', () => Session.get('connexionSigned'))
 
 Template.registerHelper('userNotFound', () => Session.get('userNotFounded'));
 
-Template.registerHelper('userSigned', () => Session.get('transactionSigned'));
+Template.registerHelper('transactionSigned', () => Session.get('transactionSigned'));
 
 Template.registerHelper('outOfSync', () => Session.get('outOfSync'));
 

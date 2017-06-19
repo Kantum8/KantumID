@@ -26,7 +26,6 @@ import '../../ui/client/noethereum.html';
 import '../../ui/client/noaccount.js';
 import '../../ui/client/nouser.js';
 import '../../ui/client/userfound.html';
-import '../../ui/client/waitingusergenesis.html';
 import '../../ui/client/whatisthis.html';
 
 

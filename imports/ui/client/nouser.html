@@ -11,9 +11,9 @@
       <br>
     <p>A MetaMask dialog will appear asking you to sign a dummy transaction. Transaction content should be "0xdeadbeefdeafbeef...". Do not sign if it is anything else.</p>
   </div>
-  {{#if caca}}
+{{#if transactionSigned}}
     <div className="form-loader">
-      <span>{{{loadingIcon}}} Waiting for user confirmation...</span>
+      <p>{{{loadingIcon}}} Waiting for user confirmation...</p>
     </div>
   {{/if}}
 </template>
