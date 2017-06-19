@@ -15,7 +15,7 @@ contract mortal {
     }
 
     function kill() {
-        suicide(administrator);
+        selfdestruct(administrator);
     }
 }
 
@@ -24,7 +24,7 @@ contract KantumID is mortal {
 
    event BroadcastPublicKey(bytes32 indexed username, address indexed addr, string publicKey);
    event SendData(bytes32 datalId, address indexed from, address indexed to, string ipfsHash, bytes32 indexed inReplyToId, string inReplyToIpfsHash);
-   event SaveData(bytes32 datalId, address indexed username, string ipfsHash);
+   //event SaveData(bytes32 datalId, address indexed username, string ipfsHash);
 
    function registerUser(bytes32 username, string publicKey) returns (bool) {
        if(usernameToAddress[username] != 0) {

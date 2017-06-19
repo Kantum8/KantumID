@@ -4,94 +4,32 @@ import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import eth from '/imports/utils/ethereumService';
 
-// Check which accounts are available and if defaultAccount is still available,
-// Otherwise set it to localStorage, Session, or first element in accounts
-function checkAccounts() {
-  web3.eth.getAccounts((error, accounts) => {
-    if (!error) {
-      if (!_.contains(accounts, web3.eth.defaultAccount)) {
-        if (_.contains(accounts, localStorage.getItem('address'))) {
-          web3.eth.defaultAccount = localStorage.getItem('address');
-        } else if (_.contains(accounts, Session.get('address'))) {
-          web3.eth.defaultAccount = Session.get('address');
-        } else if (accounts.length > 0) {
-          web3.eth.defaultAccount = web3.eth.accounts[0];
-        } else {
-          web3.eth.defaultAccount = undefined;
-        }
-      }
-      localStorage.setItem('address', web3.eth.defaultAccount);
-      Session.set('address', web3.eth.defaultAccount);
-      Session.set('accounts', accounts);
-    }
-  });
-}
+// Object { username: "mokhtar", privateKey: "cbf9223261e1fcd643c28699cc4f012e04a…", startingBlock: 2176962 }
+// DEV env/
 
-// DEV env
+var contractAbi =
+[{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}]
+var contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42'
+/*
 var contractAbi = [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyTo","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendEmail","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"emailId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendEmail","type":"event"}];
 var contractAddress = '0x6154E4F9795387628C1a1D6A3FC0C79523D12A13';
-var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
-
-// CHECK if user have a KantumID account
-function checkIfUserExists(callback) {
-  var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
-  broadcastPublicKeyEvent.get((error, events) => {
-    //if(!events.length)
-    if(events.length != 1) {
-      Session.set('userNotFounded', true);
-    } else {
-      //return userInfo = {
-      var userInfo = {
-        "username": web3.toAscii(events[0].args.username),
-        "startingBlock" : events[0].blockNumber
-      }
-      Session.set('userFounded', userInfo);
-      if (typeof Session.get('connexionSigned') === 'undefined') {
-        eth.generateKeyPair(userInfo.username, function(result, err){
-          if (err) {
-            console.log(err);
-          } else {
-            var Identity = {
-              username: userInfo.username,
-              privateKey: result,
-              startingBlock: events[0].blockNumber
-            };
-            console.log(Identity);
-            return Session.set('connexionSigned', Identity)
-          }
-        })
-      } else {
-        console.log('Session is ever signed');
-      }
-    }
-  });
-}/*
-var Identity = {
-  privateKey: 'result'
-};
-
-Session.set('connexionSigned', Identity)
 */
-// Initialize everything on new network
-function initNetwork(newNetwork) {
-  checkAccounts();
-  Session.set('network', newNetwork);
-  Session.set('isConnected', true);
-  Session.set('latestBlock', 0);
-  Session.set('startBlock', 0);
- }
 
-
+if(typeof web3 === 'undefined') {
+  console.log('Metamask not detected');
+} else {
+  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
+}
 // CHECK FOR NETWORK
 function checkNetwork() {
   /*if (typeof web3 === 'undefined') {
     console.log('Metamask not detected')
   } else {*/
 eth.initialize(function(connected) {
-    if(!connected) {
-      console.log("Not connected to the Ethereum network");
-      return true;
+  if(typeof web3 === 'undefined') {
+    console.log("Metamask not detected");
     } else {
+  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
   web3.version.getNode((error) => {
     const isConnected = !error;
 
@@ -148,11 +86,86 @@ eth.initialize(function(connected) {
       }
     }
   });
+  return kantumidContract;
 }
 });
 }
 
+// Check which accounts are available and if defaultAccount is still available,
+// Otherwise set it to localStorage, Session, or first element in accounts
+function checkAccounts() {
+  web3.eth.getAccounts((error, accounts) => {
+    if (!error) {
+      if (!_.contains(accounts, web3.eth.defaultAccount)) {
+        if (_.contains(accounts, localStorage.getItem('address'))) {
+          web3.eth.defaultAccount = localStorage.getItem('address');
+        } else if (_.contains(accounts, Session.get('address'))) {
+          web3.eth.defaultAccount = Session.get('address');
+        } else if (accounts.length > 0) {
+          web3.eth.defaultAccount = web3.eth.accounts[0];
+        } else {
+          web3.eth.defaultAccount = undefined;
+        }
+      }
+      localStorage.setItem('address', web3.eth.defaultAccount);
+      Session.set('address', web3.eth.defaultAccount);
+      Session.set('accounts', accounts);
+    }
+  });
+}
 
+// CHECK if user have a KantumID account
+function checkIfUserExists(callback) {
+  if(typeof web3 === 'undefined') {
+    console.log("Metamask not detected");
+    } else {
+  var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+  broadcastPublicKeyEvent.get((error, events) => {
+    //if(!events.length)
+    if(events.length != 1) {
+      Session.set('userNotFounded', true);
+    } else {
+      //return userInfo = {
+      var userInfo = {
+        "username": web3.toAscii(events[0].args.username),
+        "startingBlock" : events[0].blockNumber
+      }
+      Session.set('userFounded', userInfo);
+      if (typeof Session.get('connexionSigned') === 'undefined') {
+        eth.generateKeyPair(userInfo.username, function(result, err){
+          if (err) {
+            console.log(err);
+          } else {
+            var Identity = {
+              username: userInfo.username,
+              privateKey: result,
+              startingBlock: events[0].blockNumber
+            };
+            console.log(Identity);
+            return Session.set('connexionSigned', Identity)
+          }
+        })
+      } else {
+        console.log('Session is ever signed');
+      }
+    }
+  });
+}
+}/*
+var Identity = {
+  privateKey: 'result'
+};
+
+Session.set('connexionSigned', Identity)
+*/
+// Initialize everything on new network
+function initNetwork(newNetwork) {
+  checkAccounts();
+  Session.set('network', newNetwork);
+  Session.set('isConnected', true);
+  Session.set('latestBlock', 0);
+  Session.set('startBlock', 0);
+ }
 
 
 function initSession() {
@@ -172,7 +185,9 @@ Meteor.startup(() => {
   initSession();
   checkNetwork();
   checkIfUserExists();
-
+  if(typeof web3 === 'undefined') {
+    console.log("Metamask not detected");
+    } else {
   web3.eth.isSyncing((error, sync) => {
     if (!error) {
       Session.set('syncing', sync !== false);
@@ -192,7 +207,7 @@ Meteor.startup(() => {
       }
     }
   });
-
+}
 /*  Meteor.setInterval(checkNetwork, 2503);
   Meteor.setInterval(checkAccounts, 10657);
   Meteor.setInterval(checkIfUserExists, 10657)
@@ -200,7 +215,7 @@ Meteor.startup(() => {
 
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
-Meteor.setInterval(checkIfUserExists, 112257)
+Meteor.setInterval(checkIfUserExists, 11657)
 });
 
 Meteor.autorun(() => {

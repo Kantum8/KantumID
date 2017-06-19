@@ -40,9 +40,10 @@ export const encryptAndProcessData = (data, username) => {
     }
   });
 }
-//encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', username)
-
 /*
+encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', username)
+
+
 // Recuperer le mail dans la blockchain
 var Identity = {
   privateKey: Session.get('connexionSigned').privateKey

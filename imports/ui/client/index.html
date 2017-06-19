@@ -26,16 +26,16 @@
         <div role="tabpanel" class="tab-pane" id="inbox">{{> inbox}}</div>
       </div>
     {{else}}
-    {{#if userFound}}
-      {{> userFounD}}
-        {{else}}
-        {{#if userNotFound}}
-          {{> noUser}}
-            {{#if userSigned}}
-              {{> waitingUserGenesis}}
+      {{#if userFound}}
+        {{> userFounD}}
+          {{else}}
+            {{#if and userNotFound hasAccount}}
+              {{> noUser}}
+                {{#if userSigned}}
+                  {{> waitingUserGenesis}}
+                {{/if}}
             {{/if}}
-          {{/if}}
-        {{/if}}
+      {{/if}}
     {{/if}}
     {{#unless isConnected}}
       {{> noEthereum}}

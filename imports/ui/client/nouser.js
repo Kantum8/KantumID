@@ -56,7 +56,7 @@ Template.noUser.events({
 
 
   //validate(username);
-    eth.ethereumService.registerUser(username, function(error, events) {
+    eth.registerUser(username, function(error, events) {
       if(events) {
         console.log(events);
       }
