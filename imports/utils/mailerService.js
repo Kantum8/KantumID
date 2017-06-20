@@ -1,5 +1,6 @@
 import ipfs from './ipfsService';
 import eth from './ethereumService';
+import crypto from './cryptoService';
 import sha3 from 'solidity-sha3';
 
 var backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
@@ -64,6 +65,9 @@ var mailerService = {
         data.data = data.data;
         console.log(data.data);
 
+        var Identity = {
+          privateKey: Session.get('connexionSigned').privateKey
+        }
 
 
         decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
