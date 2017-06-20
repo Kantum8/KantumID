@@ -29,7 +29,7 @@ export const encryptAndProcessData = (data, username) => {
           let currentTime = new Date();
           let secureData = {
             toAddress: result.address,
-            username: [],
+            username: result.username,
             attachments: [],
             subject: 'Health',
             time: new Date(),

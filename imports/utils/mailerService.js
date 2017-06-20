@@ -56,17 +56,28 @@ var mailerService = {
       var isReply = event.args.inReplyToIpfsHash != 'null';
 
       var ipfsHash = isReply ? event.args.inReplyToIpfsHash : event.args.ipfsHash;
+      ipfs.fetch(ipfsHash, function (err, content, hash) {
+        if (err) {
+          console.log(err);
+        } else {
+        var data = JSON.parse(content);
+        data.data = data.data;
+        console.log(data.data);
 
-      ipfs.fetch(ipfsHash, function (error, content, hash) {
-        var mailData = JSON.parse(content);
 
-        mailData.fromAddress = event.args.from;
-        mailData.ipfsHash = hash;
-        mailData.transactionHash = event.transactionHash;
-        mailData.isReply = event.args.inReplyToIpfsHash != 'null';
-        mailData.inReplyTo = event.args.inReplyToIpfsHash;
 
-        callback(mailData);
+        decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
+        console.log('This is the decrypted data: ' + decryptedData);
+
+
+        data.fromAddress = event.args.from;
+        data.ipfsHash = hash;
+        data.transactionHash = event.transactionHash;
+        data.isReply = event.args.inReplyToIpfsHash != 'null';
+        data.inReplyTo = event.args.inReplyToIpfsHash;
+
+        callback(data);
+      }
       });
     });
   }

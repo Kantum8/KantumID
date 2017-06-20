@@ -1,5 +1,6 @@
 import ipfs from 'browser-ipfs';
-
+//import concat from 'concat-stream';
+//import decoder from 'text-encoding';
 /*
  * WORKING BUT NEED INFURA.IO IPFS NODE => Go to browser node with lib like libp2p-ipfs-browser
  */
@@ -19,12 +20,16 @@ var ipfsService = {
   },
 
   fetch: function(hash, callback) {
-    ipfs.cat(hash, function(err, text) {
+    ipfs.cat(hash, function(err, res) {
       if (err) {
         throw err;
       } else {
-        console.log('This the data stored on ipfs at: ' + text);
-        return text;
+        console.log('This the data stored on ipfs at: ' + res);
+        return callback(null, res, hash);
+        /*res.pipe(concat(function (data) {
+          console.log("Done fetching " + hash);
+          return callback(null, new TextDecoder("utf-8").decode(data), hash);
+        }))*/
       }
     })
   }
