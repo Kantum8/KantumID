@@ -1,4 +1,3 @@
-//'use strict';
 import ipfs from './ipfsService';
 import eth from './ethereumService';
 import sha3 from 'solidity-sha3';
@@ -6,7 +5,7 @@ import sha3 from 'solidity-sha3';
 var backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
 
 var mailerService = {
-  sendEmail: function(emailData, callback) {
+  sendData: function(emailData, callback) {
     ipfs.store(JSON.stringify(emailData), function(error, ipfsHash) {
       eth.writeEmail(emailData.toAddress, ipfsHash, emailData.inReplyTo, function(error, result) {
         //Request newly stored data from bootstrap IPFS nodes

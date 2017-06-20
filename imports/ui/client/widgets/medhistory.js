@@ -2,11 +2,12 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import _ from 'lodash';
+import mail from '/imports/utils/mailerService';
 import eth from '/imports/utils/ethereumService';
 import crypto from '/imports/utils/cryptoService';
 import * as cryptojs from "crypto-js";
 import * as sha3 from 'solidity-sha3';
-import mail from '/imports/utils/mailerService';
+
 
 
 export const encryptAndProcessData = (data, username) => {
@@ -31,42 +32,30 @@ export const encryptAndProcessData = (data, username) => {
             username: [],
             attachments: [],
             subject: 'Health',
-            time: currentTime.toString(),
+            time: new Date(),
+            id: result.address + Date.now(),
             data: encryptedData
           };
-          mail.sendData(secureData)
+          mail.sendData(secureData);
         }
       });
     }
   });
 }
+
 /*
+var username = Session.get('connexionSigned').username;
+var username = 'mokhtar';
 encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', username)
-
-
-// Recuperer le mail dans la blockchain
-var Identity = {
-  privateKey: Session.get('connexionSigned').privateKey
-}
-var username = Session.get('connexionSigned').username
+*/
 
 
 
-var encryptedData = mail.startInboxListener(1880641, function(err, result){
-  if (err) {
-    //console.log('pip' + err);
-  } else {
-    //console.log('caca' + result);
-    console.log(mailData.ipfsHash);
-  }
-});
 
-//decryptedData = JSON.parse(crypto.decrypt(Identity, encryptedData));
-//console.log('This is the decrypted data: ' + decryptedData);
 
 export const decryptAndProcessEmail = (mail, privateKey) => {
 
-}*/
+}
 
 
 import './medhistory.html';

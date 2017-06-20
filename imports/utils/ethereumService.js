@@ -163,7 +163,7 @@ var ethereumService = {
       console.log("Watching from block: " + startBlock);
 
       sendEvent.watch(function(error, event) {
-        console.log("Got incoming email " + JSON.stringify(event));
+        console.log("Got incoming data " + JSON.stringify(event));
         callback(event);
       });
 
@@ -174,14 +174,14 @@ var ethereumService = {
     var inReplyTo = inReplyToIpfsHash != null ? sha3.default(inReplyToIpfsHash) : 0;
     inReplyToIpfsHash = inReplyToIpfsHash != null ? inReplyToIpfsHash : 'null';
 
-    console.log("Trying to call sendEmail with toAddress=" + toAddress + ", hash=" + ipfsHash + ", inReplyTo=" + inReplyTo + ", inReplyToIpfsHash=" + inReplyToIpfsHash);
-//SendData
-    kantumidContract.sendEmail(toAddress, ipfsHash, inReplyTo, inReplyToIpfsHash, function(error, result) {
+    console.log("Trying to call sendData with toAddress=" + toAddress + ", hash=" + ipfsHash + ", inReplyTo=" + inReplyTo + ", inReplyToIpfsHash=" + inReplyToIpfsHash);
+
+    kantumidContract.sendData(toAddress, ipfsHash, inReplyTo, inReplyToIpfsHash, function(error, result) {
       if (error) {
-        console.log("Could not execute sendEmail() contract function!" + error);
-        return callback("Could not execute sendEmail() contract function!" + error, null);
+        console.log("Could not execute sendData() contract function!" + error);
+        return callback("Could not execute sendData() contract function!" + error, null);
       } else {
-        console.log("sendEmail result is " + result);
+        console.log("sendData result is " + result);
         callback(null, result);
       }
     });

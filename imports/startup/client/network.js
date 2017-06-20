@@ -3,6 +3,8 @@ import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import eth from '/imports/utils/ethereumService';
+import mail from '/imports/utils/mailerService';
+import crypto from '/imports/utils/cryptoService';
 
 // Object { username: "mokhtar", privateKey: "cbf9223261e1fcd643c28699cc4f012e04a…", startingBlock: 2176962 }
 // DEV env/
@@ -151,7 +153,42 @@ function checkIfUserExists(callback) {
     }
   });
 }
-}/*
+}
+
+/*
+mail.startInboxListener(1880641, function(err, result){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});*/
+
+var Identity = {
+  privateKey: Session.get('connexionSigned').privateKey
+}
+
+console.log(Identity);
+
+
+
+var encryptedData = mail.startInboxListener(1880641, function(err, result){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
+
+//encryptedData = "032abb1bbb16467edcc1fcb2d24af102c6bff45428b2ac5c523231bea03f52f72b294398e49a3e673d08daddaca1d24e4abe75fb9bc24befc2b0f4250140eba7c0e8d6e96e8719e700771e8bbfb04300d88e8365e200ca2705219d0ad5386d7668ab0db14c1d00e4e99feca41cd996751b7366b4af4d6c54166d4c69d46e64ed7eb0029ce5bb48fc466f531cfcfc856831";
+
+
+decryptedData = JSON.parse(crypto.decrypt(Identity, encryptedData));
+console.log('This is the decrypted data: ' + decryptedData);
+
+
+
+/*
 var Identity = {
   privateKey: 'result'
 };
