@@ -1,26 +1,23 @@
-'use strict';
+import bitcore from 'bitcore-lib';
+import ECIES from 'bitcore-ecies';
 
-var bitcore = require('bitcore-lib');
-delete global._bitcore;
-var ECIES = require('bitcore-ecies');
-
-var cryptoService = {
-  encrypt: function(identity, message) {
-    var privKey = new bitcore.PrivateKey(identity.privateKey);
-    var receiver = ECIES().privateKey(privKey).publicKey(new bitcore.PublicKey(identity.publicKey));
-    var encrypted = receiver.encrypt(message);
+const cryptoService = {
+  encrypt({privateKey, publicKey}, message) {
+    const privKey = new bitcore.PrivateKey(privateKey);
+    const receiver = ECIES().privateKey(privKey).publicKey(new bitcore.PublicKey(publicKey));
+    const encrypted = receiver.encrypt(message);
 
     return encrypted.toString('hex');
   },
-  decrypt: function(identity, encrypted) {
-    var privKey = new bitcore.PrivateKey(identity.privateKey);
-    var alice = ECIES().privateKey(privKey);
+  decrypt({privateKey}, encrypted) {
+    const privKey = new bitcore.PrivateKey(privateKey);
+    const alice = ECIES().privateKey(privKey);
 
-    var decryptMe = new Buffer(encrypted, 'hex');
+    const decryptMe = new Buffer(encrypted, 'hex');
 
-    var decrypted = alice.decrypt(decryptMe);
+    const decrypted = alice.decrypt(decryptMe);
     return decrypted.toString('ascii');
   }
-}
+};
 
-module.exports = cryptoService;
+export default cryptoService;

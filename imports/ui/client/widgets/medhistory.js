@@ -10,7 +10,7 @@ import * as sha3 from 'solidity-sha3';
 
 import './medhistory.html';
 
-export const encryptAndProcessData = (data, username) => {
+export const encryptAndProcessData = (subject, data, username) => {
   eth.initialize(function(connected) {
     if(!connected) {
       console.log("Not connected to the Ethereum network.");
@@ -31,7 +31,7 @@ export const encryptAndProcessData = (data, username) => {
             toAddress: result.address,
             username: result.username,
             attachments: [],
-            subject: 'Health',
+            subject: subject,
             time: new Date(),
             id: result.address + Date.now(),
             data: encryptedData
@@ -76,7 +76,7 @@ Template.searchResult.helpers({
   getIllnesses: function() {
     return IllnessesSearch.getData({
       transform: function(matchText, regExp) {
-        return matchText.replace(regExp, "<b>$&</b>")
+        return matchText.replace(regExp, "<b>$&</b>");
       },
       limit: 3,
       sort: {isoScore: -1}
@@ -89,11 +89,8 @@ Template.searchResult.events({
   "click #search-result": function(e) {
     var illnesses = document.getElementById('search_result').innerText
     console.log(illnesses);
-    /*var t = $(e.target.textContent)//.innerTexT()
-    var t = $(e.target.innerTexT)
-    console.log(t);*/
     var username = Session.get('connexionSigned').username;
-    encryptAndProcessData(illnesses, username)
+    encryptAndProcessData('medhistory', illnesses, username);
   }
 });
 
