@@ -118,67 +118,58 @@ function checkAccounts() {
 
 // CHECK if user have a KantumID account
 function checkIfUserExists(callback) {
-  if(typeof web3 === 'undefined') {
-    console.log("Metamask not detected");
-    } else {
-  var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
-  broadcastPublicKeyEvent.get((error, events) => {
-    //if(!events.length)
-    if(events.length != 1) {
-      Session.set('userNotFounded', true);
-    } else {
-      //return userInfo = {
-      var userInfo = {
-        "username": web3.toAscii(events[0].args.username),
-        "startingBlock" : events[0].blockNumber
-      }
-      Session.set('userFounded', userInfo);
-      if (typeof Session.get('connexionSigned') === 'undefined') {
-        eth.generateKeyPair(userInfo.username, function(result, err){
-          if (err) {
-            console.log(err);
-          } else {
-            var Identity = {
-              username: userInfo.username,
-              privateKey: result,
-              startingBlock: events[0].blockNumber
-            };
-            console.log(Identity);
-            return Session.set('connexionSigned', Identity)
-          }
-        })
+    if(typeof web3 === 'undefined') {
+      console.log("Metamask not detected");
       } else {
-        console.log('Session is ever signed');
+    var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+    broadcastPublicKeyEvent.get((error, events) => {
+      //if(!events.length)
+      if(events.length != 1) {
+        Session.set('userNotFounded', true);
+      } else {
+        var userInfo = {
+          "username": web3.toAscii(events[0].args.username),
+          "startingBlock" : events[0].blockNumber
+        }
+        Session.set('userFounded', userInfo);
+        if (typeof Session.get('connexionSigned') === 'undefined') {
+          eth.generateKeyPair(userInfo.username, function(result, err){
+            if (err) {
+              console.log(err);
+            } else {
+              var Identity = {
+                username: userInfo.username,
+                privateKey: result,
+                startingBlock: events[0].blockNumber
+              };
+              console.log(Identity);
+
+              return Session.set('connexionSigned', Identity)
+            }
+          })
+        } else {
+          console.log('Session is ever signed');
+        }
       }
-    }
-  });
-}
-}
-
-/*
-mail.startInboxListener(1880641, function(err, result){
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
+    });
   }
-});*/
-
-var Identity = {
-  privateKey: Session.get('connexionSigned').privateKey
 }
 
-console.log(Identity);
-
-
-
-mail.startInboxListener(1880641, function(err, result){
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
+function checkData(callback) {
+  if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
+    console.log('je joue des maracas');
+    mail.startInboxListener(1880641, function(err, result){
+      if (err) {
+        console.log(err);
+        return Session.set('data', err)
+      } else {
+        console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+        console.log(result);
+        return Session.set('data', result)
+      }
+    });
   }
-});
+}
 
 
 // Initialize everything on new network
@@ -239,6 +230,7 @@ Meteor.startup(() => {
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
 Meteor.setInterval(checkIfUserExists, 11657)
+Meteor.setInterval(checkData, 1500)
 });
 
 Meteor.autorun(() => {

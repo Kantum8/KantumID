@@ -62,8 +62,6 @@ var mailerService = {
           console.log(err);
         } else {
         var data = JSON.parse(content);
-        data.data = data.data;
-        console.log(data.data);
 
         var Identity = {
           privateKey: Session.get('connexionSigned').privateKey
@@ -73,14 +71,14 @@ var mailerService = {
         decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log('This is the decrypted data: ' + decryptedData);
 
-
+        data.data = decryptedData
         data.fromAddress = event.args.from;
         data.ipfsHash = hash;
         data.transactionHash = event.transactionHash;
         data.isReply = event.args.inReplyToIpfsHash != 'null';
         data.inReplyTo = event.args.inReplyToIpfsHash;
 
-        callback(data);
+        return callback(data);
       }
       });
     });

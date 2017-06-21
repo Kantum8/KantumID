@@ -66,9 +66,12 @@ import './medhistory.html';
 Template.medhistory.viewmodel({
   autorun() {
     //getName()
-    name = Session.get('name');
-    illnessesHistory: [name];
-    console.log(name);
+    return name = Session.get('data');
+  /*  while (typeof Session.get('data') === 'undefined') {
+      name = Session.get('data');
+      illnessesHistory: [name];
+      console.log(name);
+    }*/
   },
   illnessesHistory: [name],
   });
