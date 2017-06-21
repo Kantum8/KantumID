@@ -8,7 +8,7 @@ import crypto from '/imports/utils/cryptoService';
 import * as cryptojs from "crypto-js";
 import * as sha3 from 'solidity-sha3';
 
-
+import './medhistory.html';
 
 export const encryptAndProcessData = (data, username) => {
   eth.initialize(function(connected) {
@@ -51,30 +51,17 @@ encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', u
 
 
 
-
-
-export const decryptAndProcessEmail = (mail, privateKey) => {
-
-}
-
-
-import './medhistory.html';
-
-
-
-
 Template.medhistory.viewmodel({
   autorun() {
-    //getName()
-    return name = Session.get('data');
-  /*  while (typeof Session.get('data') === 'undefined') {
-      name = Session.get('data');
-      illnessesHistory: [name];
-      console.log(name);
-    }*/
+    if (typeof Session.get('data').data === 'undefined') {
+        name = 'Add a illnesses';
+    } else {
+      name = Session.get('data').data;
+    }
+    illnessesHistory: [name];
   },
   illnessesHistory: [name],
-  });
+});
 
 var options = {
   keepHistory: 1000 * 60 * 5,
