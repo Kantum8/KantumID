@@ -199,6 +199,7 @@ Meteor.startup(() => {
   initSession();
   checkNetwork();
   checkIfUserExists();
+  checkData();
   if(typeof web3 === 'undefined') {
     console.log("Metamask not detected");
     } else {
@@ -222,15 +223,12 @@ Meteor.startup(() => {
     }
   });
 }
-/*  Meteor.setInterval(checkNetwork, 2503);
-  Meteor.setInterval(checkAccounts, 10657);
-  Meteor.setInterval(checkIfUserExists, 10657)
-});*/
+
 
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
 Meteor.setInterval(checkIfUserExists, 11657)
-Meteor.setInterval(checkData, 1500)
+Meteor.setInterval(checkData, 12000)
 });
 
 Meteor.autorun(() => {

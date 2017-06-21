@@ -6,14 +6,14 @@ import sha3 from 'solidity-sha3';
 var backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
 
 var mailerService = {
-  sendData: function(emailData, callback) {
-    ipfs.store(JSON.stringify(emailData), function(error, ipfsHash) {
-      eth.writeEmail(emailData.toAddress, ipfsHash, emailData.inReplyTo, function(error, result) {
+  sendData: function(data, callback) {
+    ipfs.store(JSON.stringify(data), function(error, ipfsHash) {
+      eth.writeData(data.toAddress, ipfsHash, data.inReplyTo, function(error, result) {
         //Request newly stored data from bootstrap IPFS nodes
         for(var i = 0; i < backupIpfsNodes.length; i++) {
           makeHttpRequest(backupIpfsNodes[i] + ipfsHash);
         }
-        callback(error, result);
+        return callback(error, result);
       });
     });
   },

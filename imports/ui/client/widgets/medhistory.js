@@ -53,8 +53,8 @@ encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', u
 
 Template.medhistory.viewmodel({
   autorun() {
-    if (typeof Session.get('data').data === 'undefined') {
-        name = 'Add a illnesses';
+    if (typeof Session.get('data') === 'undefined') {
+      name = 'Add a illnesses';
     } else {
       name = Session.get('data').data;
     }
@@ -87,12 +87,13 @@ Template.searchResult.helpers({
 
 Template.searchResult.events({
   "click #search-result": function(e) {
-    var text = document.getElementById('search_result').innerText
-    console.log(text);
-    //var t = $(e.target.textContent)//.innerTexT()
-    //var t = $(e.target.innerTexT)
-    //console.log(t);
-    changeName(text);
+    var illnesses = document.getElementById('search_result').innerText
+    console.log(illnesses);
+    /*var t = $(e.target.textContent)//.innerTexT()
+    var t = $(e.target.innerTexT)
+    console.log(t);*/
+    var username = Session.get('connexionSigned').username;
+    encryptAndProcessData(illnesses, username)
   }
 });
 
