@@ -5,7 +5,7 @@ import sha3 from 'solidity-sha3';
 
 const backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
 
-const mailerService = {
+const dataService = {
   sendData(data, callback) {
     ipfs.store(JSON.stringify(data), (error, ipfsHash) => {
       eth.writeData(data.toAddress, ipfsHash, data.inReplyTo, (error, result) => {
@@ -58,4 +58,4 @@ function makeHttpRequest(url) {
   xmlHttp.send(null);
 }
 
-export default mailerService;
+export default dataService;

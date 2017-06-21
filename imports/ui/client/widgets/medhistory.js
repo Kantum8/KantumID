@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { $ } from 'meteor/jquery';
 
 import _ from 'lodash';
-import mail from '/imports/utils/mailerService';
+import mail from '/imports/utils/dataService';
 import eth from '/imports/utils/ethereumService';
 import crypto from '/imports/utils/cryptoService';
 import * as cryptojs from "crypto-js";

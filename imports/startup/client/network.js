@@ -3,19 +3,15 @@ import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import eth from '/imports/utils/ethereumService';
-import mail from '/imports/utils/mailerService';
+import mail from '/imports/utils/dataService';
 import crypto from '/imports/utils/cryptoService';
 
 // Object { username: "mokhtar", privateKey: "cbf9223261e1fcd643c28699cc4f012e04a…", startingBlock: 2176962 }
-// DEV env/
 
-var contractAbi =
-[{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}]
-var contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42'
-/*
-var contractAbi = [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyTo","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendEmail","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"emailId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendEmail","type":"event"}];
-var contractAddress = '0x6154E4F9795387628C1a1D6A3FC0C79523D12A13';
-*/
+// KantumID contract
+const contractAbi =
+[{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}];
+const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
 
 if(typeof web3 === 'undefined') {
   console.log('Metamask not detected');
@@ -24,73 +20,69 @@ if(typeof web3 === 'undefined') {
 }
 // CHECK FOR NETWORK
 function checkNetwork() {
-  /*if (typeof web3 === 'undefined') {
-    console.log('Metamask not detected')
-  } else {*/
-eth.initialize(function(connected) {
-  if(typeof web3 === 'undefined') {
-    console.log("Metamask not detected");
-    } else {
-  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
-  web3.version.getNode((error) => {
-    const isConnected = !error;
+  eth.initialize(connected => {
+    if(typeof web3 === 'undefined') {
+      console.log("Metamask not detected");
+      } else {
+      const kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
+      web3.version.getNode((error) => {
+        const isConnected = !error;
 
-    /*/Check if we are synced
-    if (isConnected) {
-      web3.eth.getBlock('latest', (e, res) => {
-        if (res.number >= Session.get('latestBlock')) {
-          Session.set('outOfSync', e != null || (new Date().getTime() / 1000) - res.timestamp > 600);
-          Session.set('latestBlock', res.number);
-          if (Session.get('startBlock') === 0) {
-            console.log(`Setting startblock to ${res.number - 6000}`);
-            Session.set('startBlock', (res.number - 6000));
+        //Check if we are synced
+        if (isConnected) {
+          web3.eth.getBlock('latest', (e, {number, timestamp}) => {
+            if (number >= Session.get('latestBlock')) {
+              Session.set('outOfSync', e != null || (new Date().getTime() / 1000) - timestamp > 600);
+              Session.set('latestBlock', number);
+              if (Session.get('startBlock') === 0) {
+                console.log(`Setting startblock to ${number - 6000}`);
+                Session.set('startBlock', (number - 6000));
+              }
+            } else {
+              // XXX MetaMask frequently returns old blocks
+              // https://github.com/MetaMask/metamask-plugin/issues/504
+              console.debug('Skipping old block');
+            }
+          });
+        }
+
+        // Check which network are we connected to
+        // https://github.com/ethereum/meteor-dapp-wallet/blob/90ad8148d042ef7c28610115e97acfa6449442e3/app/client/lib/ethereum/walletInterface.js#L32-L46
+        if (!Session.equals('isConnected', isConnected)) {
+          if (isConnected === true) {
+            web3.eth.getBlock(0, (e, {hash}) => {
+              let network = false;
+              if (!e) {
+                switch (hash) {
+                  case '0xa3c565fc15c7478862d50ccd6561e3c06b24cc509bf388941c25ea985ce32cb9':
+                    network = 'kovan';
+                    Session.set('AVGBlocksPerDay', 21600);
+                    break;
+                  case '0x ...':
+                    network = 'ropsten';
+                    Session.set('AVGBlocksPerDay', 5760);
+                    break;
+                  case '0x ...':
+                    network = 'main';
+                    Session.set('AVGBlocksPerDay', 5760);
+                    break;
+                  default:
+                    network = 'private';
+                }
+              }
+              if (!Session.equals('network', network)) {
+                initNetwork(network, isConnected);
+              }
+            });
+          } else {
+            Session.set('isConnected', isConnected);
+            Session.set('network', false);
+            Session.set('latestBlock', 0);
           }
-        } else {
-          // XXX MetaMask frequently returns old blocks
-          // https://github.com/MetaMask/metamask-plugin/issues/504
-          console.debug('Skipping old block');
         }
       });
-    }*/
-
-    // Check which network are we connected to
-    // https://github.com/ethereum/meteor-dapp-wallet/blob/90ad8148d042ef7c28610115e97acfa6449442e3/app/client/lib/ethereum/walletInterface.js#L32-L46
-    if (!Session.equals('isConnected', isConnected)) {
-      if (isConnected === true) {
-        web3.eth.getBlock(0, (e, res) => {
-          let network = false;
-          if (!e) {
-            switch (res.hash) {
-              case '0xa3c565fc15c7478862d50ccd6561e3c06b24cc509bf388941c25ea985ce32cb9':
-                network = 'kovan';
-                Session.set('AVGBlocksPerDay', 21600);
-                break;
-              case '0x ...':
-                network = 'ropsten';
-                Session.set('AVGBlocksPerDay', 5760);
-                break;
-              case '0x ...':
-                network = 'main';
-                Session.set('AVGBlocksPerDay', 5760);
-                break;
-              default:
-                network = 'private';
-            }
-          }
-          if (!Session.equals('network', network)) {
-            initNetwork(network, isConnected);
-          }
-        });
-      } else {
-        Session.set('isConnected', isConnected);
-        Session.set('network', false);
-        Session.set('latestBlock', 0);
-      }
     }
   });
-  return kantumidContract;
-}
-});
 }
 
 // Check which accounts are available and if defaultAccount is still available,
@@ -121,23 +113,22 @@ function checkIfUserExists(callback) {
     if(typeof web3 === 'undefined') {
       console.log("Metamask not detected");
       } else {
-    var broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+    const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
     broadcastPublicKeyEvent.get((error, events) => {
-      //if(!events.length)
-      if(events.length != 1) {
+      if(!events.length) {
         Session.set('userNotFounded', true);
       } else {
-        var userInfo = {
+        const userInfo = {
           "username": web3.toAscii(events[0].args.username),
           "startingBlock" : events[0].blockNumber
-        }
+        };
         Session.set('userFounded', userInfo);
         if (typeof Session.get('connexionSigned') === 'undefined') {
-          eth.generateKeyPair(userInfo.username, function(result, err){
+          eth.generateKeyPair(userInfo.username, (result, err) => {
             if (err) {
               console.log(err);
             } else {
-              var Identity = {
+              const Identity = {
                 username: userInfo.username,
                 privateKey: result,
                 startingBlock: events[0].blockNumber
@@ -158,7 +149,7 @@ function checkIfUserExists(callback) {
 function checkData(callback) {
   if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
-    mail.startInboxListener(1880641, function(err, result){
+    mail.startInboxListener(1880641, (err, result) => {
       if (err) {
         console.log(err);
         return Session.set('data', err)
