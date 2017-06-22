@@ -151,17 +151,29 @@ function checkData(callback) {
     console.log('je joue des maracas');
     dataService.startInboxListener(1880641, (err, data) => {
       if (err) {
-        console.log(err);
-        return Session.set('data', err)
-      } else {
-        console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-        console.log(data);
-        return Session.set('data', data)
+        //return Session.set('data', err);
+        Session.set('data', err);
+
+        const Todos = new Mongo.Collection('ouloulou');
+
+        function dump(obj) {
+          var out = '';
+          for (var i in obj) {
+          out += i + obj[i];
+        }
+
+        Todos.insert({_id: out});
+        // And this line is querying it
+        const todo = Todos.findOne({_id: out});
+        // So this happens right away!
+        console.log('alfred je fabrique des paludres');
+        console.log(todo);
+
+        }
       }
     });
   }
 }
-
 
 // Initialize everything on new network
 function initNetwork(newNetwork) {
