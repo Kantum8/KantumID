@@ -3,7 +3,7 @@ import { Session } from 'meteor/session';
 import { _ } from 'meteor/underscore';
 import { $ } from 'meteor/jquery';
 import eth from '/imports/utils/ethereumService';
-import mail from '/imports/utils/dataService';
+import dataService from '/imports/utils/dataService';
 import crypto from '/imports/utils/cryptoService';
 
 // Object { username: "mokhtar", privateKey: "cbf9223261e1fcd643c28699cc4f012e04a…", startingBlock: 2176962 }
@@ -149,7 +149,7 @@ function checkIfUserExists(callback) {
 function checkData(callback) {
   if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
-    mail.startInboxListener(1880641, (err, result) => {
+    dataService.startInboxListener(1880641, (err, result) => {
       if (err) {
         console.log(err);
         return Session.set('data', err)
