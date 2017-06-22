@@ -29,16 +29,28 @@ const dataService = {
           console.log(err);
         } else {
         const data = JSON.parse(content);
-
         const Identity = {
           privateKey: Session.get('connexionSigned').privateKey
         };
 
 
-        decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
+        var decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log(`This is the decrypted data: ${decryptedData}`);
 
+
+        console.log(decryptedData.length);
+        /*
+        for (var i = 0; i < decryptedData.length; i++) {
+          var jeanmould = jeanmould + decryptedData;
+          console.log(jeanmould);
+          //return Session.set('jeanmould', jeanmould);
+        }*/
+        jeanmould = decryptedData
+        jeanmould = jeanmould + decryptedData;
+        console.log(jeanmould);
+
         data.data = decryptedData
+        console.log(data.data);
         data.fromAddress = args.from;
         data.ipfsHash = hash;
         data.transactionHash = transactionHash;

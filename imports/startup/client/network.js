@@ -149,14 +149,14 @@ function checkIfUserExists(callback) {
 function checkData(callback) {
   if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
-    dataService.startInboxListener(1880641, (err, result) => {
+    dataService.startInboxListener(1880641, (err, data) => {
       if (err) {
         console.log(err);
         return Session.set('data', err)
       } else {
         console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-        console.log(result);
-        return Session.set('data', result)
+        console.log(data);
+        return Session.set('data', data)
       }
     });
   }
@@ -219,7 +219,7 @@ Meteor.startup(() => {
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
 Meteor.setInterval(checkIfUserExists, 11657)
-Meteor.setInterval(checkData, 12000)
+Meteor.setInterval(checkData, 1200)
 });
 
 Meteor.autorun(() => {

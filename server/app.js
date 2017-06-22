@@ -1,6 +1,32 @@
-import { Meteor } from 'meteor/meteor';
+import Meteor from 'meteor/meteor';
 
-SearchSource.defineSource('illnesses', function(searchText, options) {
+SearchSource.defineSource('illnesses', (searchText, options) => {
+  var options = {sort: {isoScore: -1}, limit: 20};
+  if(searchText) {
+    const regExp = buildRegExp(searchText);
+    const selector = {$or: [
+      {illnessesName: regExp},
+      {description: regExp}
+    ]};
+    return Illnesses.find(selector, options).fetch();
+  } else {
+    return Illnesses.find({}, options).fetch();
+  }
+});
+
+function buildRegExp(searchText) {
+  // this is a dumb implementation
+  const parts = searchText.trim().split(/[ \-\:]+/);
+  return new RegExp(`(${parts.join('|')})`, "ig");
+}
+
+/*
+import i18n from 'meteor/universe:i18n';
+
+
+var lang = 'frIllnesses';
+var majLang = FrIllnesses
+SearchSource.defineSource(lang, function(searchText, options) {
   var options = {sort: {isoScore: -1}, limit: 20};
 
   if(searchText) {
@@ -10,9 +36,9 @@ SearchSource.defineSource('illnesses', function(searchText, options) {
       {description: regExp}
     ]};
 
-    return Illnesses.find(selector, options).fetch();
+    return majLang.find(selector, options).fetch();
   } else {
-    return Illnesses.find({}, options).fetch();
+    return majLang.find({}, options).fetch();
   }
 });
 
@@ -21,6 +47,10 @@ function buildRegExp(searchText) {
   var parts = searchText.trim().split(/[ \-\:]+/);
   return new RegExp("(" + parts.join('|') + ")", "ig");
 }
+*/
+
+
+
 /*
 import i18n from 'meteor/universe:i18n';
 
