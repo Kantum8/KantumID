@@ -4,13 +4,6 @@
 > KantumID is an open-source Ethereum based blockchain for citizen can manage their health records.
 
 
-## Installation
-
-git clone https://github.com/Kantum8/KantumID.git
-cd KantumID
-meteor npm install
-meteor
-
 ## Prerequisites
   * [Meteor 1.5](https://meteor.com)
   * Command Line Tools
@@ -32,9 +25,8 @@ cd KantumID/
 # Install NPM dependencies
 meteor npm install
 
-# Launch meteor
+# Run the app
 meteor
-
-## Test
+```
 
 ## License

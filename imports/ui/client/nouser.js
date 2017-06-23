@@ -5,34 +5,6 @@ import { Session } from 'meteor/session';
 import eth from '/imports/utils/ethereumService';
 
 import './nouser.html';
-/*
-Template.noUser.helpers({
-  transactionSigned: function transactionSigned() {
-      return web3 &&
-            web3.getTransaction &&
-            web3.getTransaction.constructor.name === 'NewTransaction';
-  },
-});
-
-Template.noUser.helpers({
-  caca: function caca() {
-      return web3 &&
-            web3.eth.getTransaction &&
-            web3.eth.getTransaction.constructor.name === 'NewTransaction';
-  },
-});*/
-
-Template.noUser.onCreated(function noUserOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
-
-Template.noUser.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
-
 
 
 Template.noUser.events({

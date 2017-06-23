@@ -6,7 +6,6 @@ import eth from '/imports/utils/ethereumService';
 import dataService from '/imports/utils/dataService';
 import crypto from '/imports/utils/cryptoService';
 
-// Object { username: "mokhtar", privateKey: "cbf9223261e1fcd643c28699cc4f012e04a…", startingBlock: 2176962 }
 
 // KantumID contract
 const contractAbi =

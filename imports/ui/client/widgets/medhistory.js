@@ -11,18 +11,18 @@ import * as sha3 from 'solidity-sha3';
 import './medhistory.html';
 
 export const encryptAndProcessData = (subject, data, username) => {
-  eth.initialize(function(connected) {
+  eth.initialize(connected => {
     if(!connected) {
       console.log("Not connected to the Ethereum network.");
       return;
     } else {
-      eth.getUsersPublicKey(username, function(error, result) {
+      eth.getUsersPublicKey(username, (error, result) => {
         if(error) {
         console.log("User not found");
           return;
         } else {
           console.log(result);
-          var saverIdentity= {
+          const saverIdentity= {
             publicKey: result.publicKey
           };
           encryptedData = crypto.encrypt(saverIdentity, JSON.stringify(data));
@@ -31,7 +31,7 @@ export const encryptAndProcessData = (subject, data, username) => {
             toAddress: result.address,
             username: result.username,
             attachments: [],
-            subject: subject,
+            subject,
             time: new Date(),
             id: result.address + Date.now(),
             data: encryptedData
@@ -63,19 +63,19 @@ Template.medhistory.viewmodel({
   illnessesHistory: [name],
 });
 
-var options = {
+const options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: true
 };
-var fields = ['illnessesName', 'description'];
+const fields = ['illnessesName', 'description'];
 
 IllnessesSearch = new SearchSource('illnesses', fields, options);
 
 
 Template.searchResult.helpers({
-  getIllnesses: function() {
+  getIllnesses() {
     return IllnessesSearch.getData({
-      transform: function(matchText, regExp) {
+      transform(matchText, regExp) {
         return matchText.replace(regExp, "<b>$&</b>");
       },
       limit: 3,
@@ -87,16 +87,16 @@ Template.searchResult.helpers({
 
 Template.searchResult.events({
   "click #search-result": function(e) {
-    var illnesses = document.getElementById('search_result').innerText
+    const illnesses = document.getElementById('search_result').innerText;
     console.log(illnesses);
-    var username = Session.get('connexionSigned').username;
+    const username = Session.get('connexionSigned').username;
     encryptAndProcessData('medhistory', illnesses, username);
   }
 });
 
 Template.searchBox.events({
-  "keyup #search-box": _.throttle(function(e) {
-    var text = $(e.target).val().trim();
+  "keyup #search-box": _.throttle(({target}) => {
+    const text = $(target).val().trim();
     IllnessesSearch.search(text);
   }, 200),
 });

@@ -36,7 +36,7 @@ const dataService = {
         };
 
 
-        var decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
+        const decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log(`This is the decrypted data: ${decryptedData}`);
 
 
@@ -51,7 +51,7 @@ const dataService = {
         medhistory = Medhistory.find({subject: "Health"});
         medhistory = Medhistory.find()
 
-        medhistory.forEach(function(entry) {
+        medhistory.forEach(entry => {
           console.log(entry);
         });
 
