@@ -56,7 +56,7 @@ const dataService = {
         let medicalhistory = '';
 
         medhistory.forEach(entry => {
-          medicalhistory += `\n${entry}`;
+          medicalhistory += `\n${entry.data}`;
           /*medicalhistory +=
             {
               "illnesses": entry.data,

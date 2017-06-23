@@ -43,13 +43,6 @@ export const encryptAndProcessData = (subject, data, username) => {
   });
 }
 
-/*
-var username = Session.get('connexionSigned').username;
-var username = 'mokhtar';
-encryptAndProcessData('Je joue a la play avec des orang-outang de Madagascar', username)
-*/
-
-
 
 Template.medhistory.viewmodel({
   autorun() {
@@ -63,12 +56,12 @@ Template.medhistory.viewmodel({
   illnessesHistory: [name],
 });
 
+
 const options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: true
 };
 const fields = ['illnessesName', 'description'];
-
 IllnessesSearch = new SearchSource('illnesses', fields, options);
 
 
@@ -86,8 +79,24 @@ Template.searchResult.helpers({
 
 
 Template.searchResult.events({
+
+  "click .close": function(e) {
+    $('#modal').hide()
+  },
+
   "click #search-result": function(e) {
-    const illnesses = document.getElementById('search_result').innerText;
+    let illnesses = document.getElementById('search_result').innerText;
+    $('#modal').show();
+
+    illnesses =
+      {
+        "illnesses": illnesses,
+        "dateOfIllnesses":
+        {
+          "from": Date.now() / 2,
+          "to": Date.now()
+        }
+      }
     console.log(illnesses);
     const username = Session.get('connexionSigned').username;
     encryptAndProcessData('medhistory', illnesses, username);

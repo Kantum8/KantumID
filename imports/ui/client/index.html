@@ -43,8 +43,10 @@
       {{#unless hasAccount}}
         {{> noAccount}}
       {{else}}
-        {{#unless or userNotFound userFound}}
-          {{> searchUser}}
+        {{#unless or userNotFound userFound }}
+          {{#unless connexionSigned}}
+            {{> searchUser}}
+          {{/unless}}
         {{/unless}}
       {{/unless}}
     {{/unless}}
