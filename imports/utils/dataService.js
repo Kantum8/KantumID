@@ -4,6 +4,8 @@ import crypto from './cryptoService';
 import sha3 from 'solidity-sha3';
 
 const backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
+const Medhistory = new Mongo.Collection('medhistory');
+
 
 const dataService = {
   sendData(data, callback) {
@@ -37,39 +39,24 @@ const dataService = {
         var decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log(`This is the decrypted data: ${decryptedData}`);
 
-/*
-        if (new Mongo.Collection('jeanmould') !== null) {
-          console.log('Todos alrady exists');
-        } else {
-        //  const Todos = new Mongo.Collection('jeanmould');
-        }
 
-
-        function dump(obj) {
-          var out = '';
-          for (var i in obj) {
-            out += i + obj[i];
+        if(Meteor.isClient){
+            Medhistory.insert({
+              _id: data.id,
+              subject: data.subject,
+              data: decryptedData
+            });
           }
-/*
-          Todos.insert({_id: out});
           // And this line is querying it
-          const todo = Todos.findOne({_id: out});
-          // So this happens right away!
-          console.log(todo);
-*
-        }
+        medhistory = Medhistory.find({subject: "Health"});
+        medhistory = Medhistory.find()
 
-        dump(decryptedData);
+        medhistory.forEach(function(entry) {
+          console.log(entry);
+        });
 
-        /*
-        for (var i = 0; i < decryptedData.length; i++) {
-          var jeanmould = jeanmould + decryptedData;
-          console.log(jeanmould);
-          //return Session.set('jeanmould', jeanmould);
-        }*/
 
         data.data = decryptedData
-        console.log(data.data);
         data.fromAddress = args.from;
         data.ipfsHash = hash;
         data.transactionHash = transactionHash;
