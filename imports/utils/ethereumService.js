@@ -38,18 +38,19 @@ const ethereumService = {
   getOwnerEthereumAddress() {
     return web3.eth.accounts[0]
   },
-  // Check if current MetaMask user has already registered an account
+ // Check if current MetaMask user has already registered an account
   checkIfUserExists(callback) {
     const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
 
     broadcastPublicKeyEvent.get((error, events) => {
       if(!events.length) {
-        return callback(null);
+        return callback(null, Session.set('userNotFound', true));
       } else {
-        return callback({
+        const userInfo = {
           "username": web3.toAscii(events[0].args.username),
           "startingBlock" : events[0].blockNumber
-        });
+        };
+        return callback(null, Session.set('userFound', userInfo));
       };
     });
   },
@@ -57,7 +58,7 @@ const ethereumService = {
   generateKeyPair(userData, callback) {
     web3.eth.sign(web3.eth.accounts[0], "0xdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef", (error, result) => {
       const privateKey = bitcore.PrivateKey.fromString(result.slice(2, 66));
-      return callback(privateKey.toString());
+      return callback(null, privateKey.toString());
     });
   },
 // Create new Ethereum account for the user

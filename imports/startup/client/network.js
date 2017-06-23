@@ -7,7 +7,7 @@ import dataService from '/imports/utils/dataService';
 import crypto from '/imports/utils/cryptoService';
 
 
-// KantumID contract
+/* KantumID contract
 const contractAbi =
 [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}];
 const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
@@ -16,14 +16,14 @@ if(typeof web3 === 'undefined') {
   console.log('Metamask not detected');
 } else {
   var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
-}
+}*/
 // CHECK FOR NETWORK
 function checkNetwork() {
   eth.initialize(connected => {
     if(typeof web3 === 'undefined') {
       console.log("Metamask not detected");
       } else {
-      const kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
+    //  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
       web3.version.getNode((error) => {
         const isConnected = !error;
 
@@ -107,7 +107,7 @@ function checkAccounts() {
   });
 }
 
-// CHECK if user have a KantumID account
+/*/ CHECK if user have a KantumID account
 function checkIfUserExists(callback) {
     if(typeof web3 === 'undefined') {
       console.log("Metamask not detected");
@@ -143,6 +143,33 @@ function checkIfUserExists(callback) {
       }
     });
   }
+}*/
+
+function checkIfUserExists(callback) {
+  eth.checkIfUserExists(function(err, result){
+    if (err) {
+      console.log(err);
+    } else {
+      let userInfo = Session.get('userFound');
+      if (typeof Session.get('connexionSigned') === 'undefined') {
+        eth.generateKeyPair(userInfo.username, (err, result) => {
+          if (err) {
+            console.log(err);
+          } else {
+            const Identity = {
+              username: userInfo.username,
+              privateKey: result,
+              startingBlock: userInfo.startingBlock
+            };
+            console.log(Identity);
+            return callback(null, Session.set('connexionSigned', Identity));
+          }
+        });
+      } else {
+        console.log('Session is ever signed');
+      }
+    }
+  })
 }
 
 
@@ -215,7 +242,7 @@ Meteor.startup(() => {
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
 Meteor.setInterval(checkIfUserExists, 11657)
-Meteor.setInterval(checkData, 1200)
+Meteor.setInterval(checkData, 11200)
 });
 
 Meteor.autorun(() => {
