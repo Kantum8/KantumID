@@ -47,13 +47,29 @@ const dataService = {
               data: decryptedData
             });
           }
+
+
           // And this line is querying it
         medhistory = Medhistory.find({subject: "Health"});
         medhistory = Medhistory.find()
 
+        let medicalhistory = '';
+
         medhistory.forEach(entry => {
-          console.log(entry);
+          medicalhistory += `\n${entry}`;
+          /*medicalhistory +=
+            {
+              "illnesses": entry.data,
+              "dateOfIllnesses":
+              {
+                "from": Date.now() / 2,
+                "to": Date.now()
+              }
+            }*/
         });
+
+        console.log(medicalhistory);
+
 
 
         data.data = decryptedData

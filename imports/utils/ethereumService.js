@@ -9,9 +9,7 @@ const contractAbi =
 const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
 
 
-if(typeof web3 === 'undefined') {
-  console.log('Metamask not detected');
-} else {
+if(typeof web3 !== 'undefined') {
   var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
 }
 
@@ -40,19 +38,22 @@ const ethereumService = {
   },
  // Check if current MetaMask user has already registered an account
   checkIfUserExists(callback) {
-    const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+    if (typeof web3 !== 'undefined') {
 
-    broadcastPublicKeyEvent.get((error, events) => {
-      if(!events.length) {
-        return callback(null, Session.set('userNotFound', true));
-      } else {
-        const userInfo = {
-          "username": web3.toAscii(events[0].args.username),
-          "startingBlock" : events[0].blockNumber
+      const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
+
+      broadcastPublicKeyEvent.get((error, events) => {
+        if(!events.length) {
+          return callback(null, Session.set('userNotFound', true));
+        } else {
+          const userInfo = {
+            "username": web3.toAscii(events[0].args.username),
+            "startingBlock" : events[0].blockNumber
+          };
+          return callback(null, Session.set('userFound', userInfo));
         };
-        return callback(null, Session.set('userFound', userInfo));
-      };
-    });
+      });
+    }
   },
   // Generate key pair
   generateKeyPair(userData, callback) {

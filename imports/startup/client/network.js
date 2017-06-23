@@ -7,23 +7,10 @@ import dataService from '/imports/utils/dataService';
 import crypto from '/imports/utils/cryptoService';
 
 
-/* KantumID contract
-const contractAbi =
-[{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}];
-const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
-
-if(typeof web3 === 'undefined') {
-  console.log('Metamask not detected');
-} else {
-  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
-}*/
 // CHECK FOR NETWORK
 function checkNetwork() {
   eth.initialize(connected => {
-    if(typeof web3 === 'undefined') {
-      console.log("Metamask not detected");
-      } else {
-    //  var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
+    if(typeof web3 !== 'undefined') {
       web3.version.getNode((error) => {
         const isConnected = !error;
 
@@ -87,94 +74,60 @@ function checkNetwork() {
 // Check which accounts are available and if defaultAccount is still available,
 // Otherwise set it to localStorage, Session, or first element in accounts
 function checkAccounts() {
-  web3.eth.getAccounts((error, accounts) => {
-    if (!error) {
-      if (!_.contains(accounts, web3.eth.defaultAccount)) {
-        if (_.contains(accounts, localStorage.getItem('address'))) {
-          web3.eth.defaultAccount = localStorage.getItem('address');
-        } else if (_.contains(accounts, Session.get('address'))) {
-          web3.eth.defaultAccount = Session.get('address');
-        } else if (accounts.length > 0) {
-          web3.eth.defaultAccount = web3.eth.accounts[0];
-        } else {
-          web3.eth.defaultAccount = undefined;
+  if (typeof web3 !== 'undefined') {
+    web3.eth.getAccounts((error, accounts) => {
+      if (!error) {
+        if (!_.contains(accounts, web3.eth.defaultAccount)) {
+          if (_.contains(accounts, localStorage.getItem('address'))) {
+            web3.eth.defaultAccount = localStorage.getItem('address');
+          } else if (_.contains(accounts, Session.get('address'))) {
+            web3.eth.defaultAccount = Session.get('address');
+          } else if (accounts.length > 0) {
+            web3.eth.defaultAccount = web3.eth.accounts[0];
+          } else {
+            web3.eth.defaultAccount = undefined;
+          }
         }
+        localStorage.setItem('address', web3.eth.defaultAccount);
+        Session.set('address', web3.eth.defaultAccount);
+        Session.set('accounts', accounts);
       }
-      localStorage.setItem('address', web3.eth.defaultAccount);
-      Session.set('address', web3.eth.defaultAccount);
-      Session.set('accounts', accounts);
-    }
-  });
+    });
+  }
 }
 
-/*/ CHECK if user have a KantumID account
+// CHECK if user have a KantumID account
 function checkIfUserExists(callback) {
-    if(typeof web3 === 'undefined') {
-      console.log("Metamask not detected");
+  if (typeof Session.get('address') !== 'undefined') {
+    eth.checkIfUserExists(function(err, result){
+      if (err) {
+        console.log(err);
       } else {
-    const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
-    broadcastPublicKeyEvent.get((error, events) => {
-      if(!events.length) {
-        Session.set('userNotFounded', true);
-      } else {
-        const userInfo = {
-          "username": web3.toAscii(events[0].args.username),
-          "startingBlock" : events[0].blockNumber
-        };
-        Session.set('userFounded', userInfo);
+        let userInfo = Session.get('userFound');
         if (typeof Session.get('connexionSigned') === 'undefined') {
-          eth.generateKeyPair(userInfo.username, (result, err) => {
+          eth.generateKeyPair(userInfo.username, (err, result) => {
             if (err) {
               console.log(err);
             } else {
               const Identity = {
                 username: userInfo.username,
                 privateKey: result,
-                startingBlock: events[0].blockNumber
+                startingBlock: userInfo.startingBlock
               };
-              console.log(Identity);
-
-              return Session.set('connexionSigned', Identity)
+              return Session.set('connexionSigned', Identity);
             }
-          })
+          });
         } else {
           console.log('Session is ever signed');
         }
       }
-    });
+    })
   }
-}*/
-
-function checkIfUserExists(callback) {
-  eth.checkIfUserExists(function(err, result){
-    if (err) {
-      console.log(err);
-    } else {
-      let userInfo = Session.get('userFound');
-      if (typeof Session.get('connexionSigned') === 'undefined') {
-        eth.generateKeyPair(userInfo.username, (err, result) => {
-          if (err) {
-            console.log(err);
-          } else {
-            const Identity = {
-              username: userInfo.username,
-              privateKey: result,
-              startingBlock: userInfo.startingBlock
-            };
-            console.log(Identity);
-            return callback(null, Session.set('connexionSigned', Identity));
-          }
-        });
-      } else {
-        console.log('Session is ever signed');
-      }
-    }
-  })
 }
 
-
+// CHECK sved data
 function checkData(callback) {
-  if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
+  if (typeof Session.get('connexionSigned') !== 'undefined'){// && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
     dataService.startInboxListener(1880641, (err, data) => {
       if (err) {
@@ -183,8 +136,6 @@ function checkData(callback) {
     });
   }
 }
-
-
 
 // Initialize everything on new network
 function initNetwork(newNetwork) {
@@ -214,9 +165,8 @@ Meteor.startup(() => {
   checkNetwork();
   checkIfUserExists();
   checkData();
-  if(typeof web3 === 'undefined') {
-    console.log("Metamask not detected");
-    } else {
+
+if(typeof web3 !== 'undefined') {
   web3.eth.isSyncing((error, sync) => {
     if (!error) {
       Session.set('syncing', sync !== false);
