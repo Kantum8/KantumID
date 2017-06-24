@@ -6,17 +6,12 @@ import eth from '/imports/utils/ethereumService';
 
 import './nouser.html';
 
+Template.noUser.onRendered(() => {
+  return Session.set('transactionSigned', false);
+});
 
 Template.noUser.events({
   'submit .register'(event, instance) {
-    /*validate: function validate(username){
-      if (username.length === 0) {
-        event.target.classList += " error";
-        console.log(error);
-        return;
-      }
-      event.target.classList = "auth-input";
-    }*/
     // Prevent default browser form submit
     event.preventDefault();
     // Get value from form element
