@@ -59,10 +59,37 @@
     {{/each}}
   </div>
 
-
-  <div id="modal">
-      <div class="insertscreen">
-          <p class="close">Close this modal</p>
+{{#if modaL}}
+  <div id="modal" class="closed">
+    <div class="diamond"></div>
+      <div class="form-wrap">
+        <form action="">
+          {{#each getPlaceholderDate}}
+          <div class="dates">
+            <h4>Since when are you sick?</h4><br/>
+              <div class="arrival">
+                <label for="arrival">FROM</label><br/>
+                <input name="arrival" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{fromDate}}"/>
+              </div>
+              <div class="departure">
+                <label for="arrival">TO</label><br/>
+                <input name="departure" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{toDate}}"/>
+            </div>
+          </div>
+        {{/each}}
+        </form>
+        <button type="button" class="btn-add-med">ADD NOW</button>
+        <div class="linkbox">
+          <div class="links">
+            <div class="origin">
+              <p>Check out Seth Coelen's original design over on dribbble</p><a href="https://dribbble.com/shots/2464177-Daily-UI-067-Hotel-Booking" target="_blank"><i class="fa fa-dribbble"></i></a>
+            </div>
+            <div class="me">
+              <p>Why not take a look at my other pens while you're here</p><a href="https://codepen.io/lewisvrobinson"><i class="fa fa-codepen"></i></a>
+            </div>
+        </div>
       </div>
+    </div>
   </div>
+{{/if}}
 </template>

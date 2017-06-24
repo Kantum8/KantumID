@@ -6,3 +6,4 @@
 * waiting for user confirmation
 * les sign qui s'accumule / multiple sign
 * charging medhistory with a loading icon
+* divise scss en fichier un par composant

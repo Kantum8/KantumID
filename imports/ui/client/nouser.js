@@ -8,43 +8,41 @@ import './nouser.html';
 
 
 Template.noUser.events({
-  validate(e){
-    if (e.target.value.length === 0) {
-      e.target.classList += " error";
-      return;
-    }
-    e.target.classList = "auth-input";
-  },
-
-
   'submit .register'(event, instance) {
-    instance.counter.set(instance.counter.get() + 1);
+    /*validate: function validate(username){
+      if (username.length === 0) {
+        event.target.classList += " error";
+        console.log(error);
+        return;
+      }
+      event.target.classList = "auth-input";
+    }*/
     // Prevent default browser form submit
     event.preventDefault();
     // Get value from form element
     const target = event.target;
     const username = target.text.value;
-    console.log(username);
 
+    if (username == "") {
+        alert("Name must be filled out");
+        return false;
+    } else {
+      eth.registerUser(username, function(error, events) {
+        if(events) {
+          console.log(events);
+        }
+      });
+      // Clear form
+      target.text.value = '';
 
-  //validate(username);
-    eth.registerUser(username, function(error, events) {
-      if(events) {
-        console.log(events);
+      transactionSigned: function transactionSigned() {
+        console.log('transacctionSigned');
+          return web3 &&
+                web3.eth.getTransaction &&
+                web3.eth.getTransaction.constructor.name === 'NewTransaction';
       }
-    });
-    // Clear form
-    target.text.value = '';
-
-    transactionSigned: function transactionSigned() {
-      console.log('transacctionSigned');
-        return web3 &&
-              web3.eth.getTransaction &&
-              web3.eth.getTransaction.constructor.name === 'NewTransaction';
+      // Waiting indicator
+      Session.set('transactionSigned', true)
     }
-
-    // Waiting indicator
-    Session.set('transactionSigned', true)
-
   },
 });

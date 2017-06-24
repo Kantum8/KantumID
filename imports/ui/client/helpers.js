@@ -50,6 +50,8 @@ Template.registerHelper('userNotFound', () => Session.get('userNotFound'));
 
 Template.registerHelper('transactionSigned', () => Session.get('transactionSigned'));
 
+Template.registerHelper('modaL', () => Session.get('modaL'));
+
 Template.registerHelper('outOfSync', () => Session.get('outOfSync'));
 
 Template.registerHelper('syncing', () => Session.get('syncing'));

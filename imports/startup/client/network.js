@@ -103,22 +103,24 @@ function checkIfUserExists(callback) {
       if (err) {
         console.log(err);
       } else {
-        let userInfo = Session.get('userFound');
-        if (typeof Session.get('connexionSigned') === 'undefined') {
-          eth.generateKeyPair(userInfo.username, (err, result) => {
-            if (err) {
-              console.log(err);
-            } else {
-              const Identity = {
-                username: userInfo.username,
-                privateKey: result,
-                startingBlock: userInfo.startingBlock
-              };
-              return Session.set('connexionSigned', Identity);
-            }
-          });
-        } else {
-          console.log('Session is ever signed');
+        if (typeof Session.get('userFound') !== 'undefined') {
+          let userInfo = Session.get('userFound');
+          if (typeof Session.get('connexionSigned') === 'undefined') {
+            eth.generateKeyPair(userInfo.username, (err, result) => {
+              if (err) {
+                console.log(err);
+              } else {
+                const Identity = {
+                  username: userInfo.username,
+                  privateKey: result,
+                  startingBlock: userInfo.startingBlock
+                };
+                return Session.set('connexionSigned', Identity);
+              }
+            });
+          } else {
+            console.log('Session is ever signed');
+          }
         }
       }
     })
@@ -127,7 +129,7 @@ function checkIfUserExists(callback) {
 
 // CHECK sved data
 function checkData(callback) {
-  if (typeof Session.get('connexionSigned') !== 'undefined'){// && typeof Session.get('data') === 'undefined') {
+  if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
     dataService.startInboxListener(1880641, (err, data) => {
       if (err) {

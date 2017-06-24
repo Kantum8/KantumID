@@ -43,6 +43,13 @@ export const encryptAndProcessData = (subject, data, username) => {
   });
 }
 
+const options = {
+  keepHistory: 1000 * 60 * 5,
+  localSearch: true
+};
+const fields = ['illnessesName', 'description'];
+IllnessesSearch = new SearchSource('illnesses', fields, options);
+
 
 Template.medhistory.viewmodel({
   autorun() {
@@ -56,15 +63,6 @@ Template.medhistory.viewmodel({
   illnessesHistory: [name],
 });
 
-
-const options = {
-  keepHistory: 1000 * 60 * 5,
-  localSearch: true
-};
-const fields = ['illnessesName', 'description'];
-IllnessesSearch = new SearchSource('illnesses', fields, options);
-
-
 Template.searchResult.helpers({
   getIllnesses() {
     return IllnessesSearch.getData({
@@ -75,18 +73,52 @@ Template.searchResult.helpers({
       sort: {isoScore: -1}
     });
   },
+  getPlaceholderDate() {
+    let fromDate = 1// moment().subtract(5, 'days').calendar();
+    let toDate = moment().format('L');
+    date =
+    {
+      fromDate: moment().subtract(5, 'days').calendar(),
+      toDate: moment().format('L')
+    }
+    return [fromDate, toDate]
+  /*  return date = {
+        fromDate: fromDate,
+        toDate: toDate
+    };
+    console.log(date.fromDate);
+    //console.log(date);
+    //return date;*/
+  }
 });
 
-
 Template.searchResult.events({
+  "click .closed": function(e) {
+    //$('#modal').hide()
+    //return Session.set('modaL', false)
 
-  "click .close": function(e) {
-    $('#modal').hide()
   },
 
   "click #search-result": function(e) {
-    let illnesses = document.getElementById('search_result').innerText;
-    $('#modal').show();
+    //$('#modal').show();
+    return Session.set('modaL', true)
+  },
+
+  "click .btn-add-med": function(e) {
+    var $btn = $('.btn-add-med');
+    //let illnesses = document.getElementById('search_result').innerText;
+    let illnesses = $('#search_result').val().trim();
+    console.log(illnesses);
+    $btn.toggleClass('booked');
+    $('.diamond').toggleClass('windup');
+    $('form').slideToggle(300);
+    $('.linkbox').toggle(200);
+
+    if ($btn.text() === "ADD NOW") {
+      $btn.text("ADDED!");
+    } else {
+      $btn.text("ADD NOW");
+    }
 
     illnesses =
       {
@@ -99,7 +131,7 @@ Template.searchResult.events({
       }
     console.log(illnesses);
     const username = Session.get('connexionSigned').username;
-    encryptAndProcessData('medhistory', illnesses, username);
+    //encryptAndProcessData('medhistory', illnesses, username);
   }
 });
 
