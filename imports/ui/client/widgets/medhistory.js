@@ -10,7 +10,7 @@ import * as sha3 from 'solidity-sha3';
 
 import './medhistory.html';
 
-export const encryptAndProcessData = (subject, data, username) => {
+export const encryptAndProcessData = (subject, data, username, callback) => {
   eth.initialize(connected => {
     if(!connected) {
       console.log("Not connected to the Ethereum network.");
@@ -18,25 +18,32 @@ export const encryptAndProcessData = (subject, data, username) => {
     } else {
       eth.getUsersPublicKey(username, (error, result) => {
         if(error) {
-        console.log("User not found");
+          console.log("User not found");
           return;
         } else {
-          console.log(result);
           const saverIdentity= {
             publicKey: result.publicKey
           };
           encryptedData = crypto.encrypt(saverIdentity, JSON.stringify(data));
+          console.log(encryptedData);
           let currentTime = new Date();
           let secureData = {
             toAddress: result.address,
-            username: result.username,
+            username: Session.get('connexionSigned').username,
             attachments: [],
-            subject,
+            subject: subject,
             time: new Date(),
             id: result.address + Date.now(),
             data: encryptedData
           };
-          dataService.sendData(secureData);
+          console.log(secureData);
+          dataService.sendData(secureData, function(err, result){
+            if (err) {
+              console.log(err);
+            } else {
+              return callback(secureData);
+            }
+          });
         }
       });
     }
@@ -63,6 +70,11 @@ Template.medhistory.viewmodel({
   illnessesHistory: [name],
 });
 
+Template.searchResult.onRendered(() => {
+  return Session.set('modaL', false);
+  // generate date her
+})
+
 Template.searchResult.helpers({
   getIllnesses() {
     return IllnessesSearch.getData({
@@ -81,7 +93,7 @@ Template.searchResult.helpers({
       fromDate: moment().subtract(5, 'days').calendar(),
       toDate: moment().format('L')
     }
-    return [fromDate, toDate]
+    //return [fromDate, toDate]
   /*  return date = {
         fromDate: fromDate,
         toDate: toDate
@@ -92,46 +104,60 @@ Template.searchResult.helpers({
   }
 });
 
+
 Template.searchResult.events({
-  "click .closed": function(e) {
-    //$('#modal').hide()
-    //return Session.set('modaL', false)
+  "click .closer": function(e) {
+    return Session.set('modaL', false)
 
   },
 
   "click #search-result": function(e) {
-    //$('#modal').show();
     return Session.set('modaL', true)
   },
 
   "click .btn-add-med": function(e) {
     var $btn = $('.btn-add-med');
-    //let illnesses = document.getElementById('search_result').innerText;
-    let illnesses = $('#search_result').val().trim();
-    console.log(illnesses);
-    $btn.toggleClass('booked');
-    $('.diamond').toggleClass('windup');
-    $('form').slideToggle(300);
-    $('.linkbox').toggle(200);
+    let illnesses = $('#search_result').text();
+    let dateFrom = $('input[type=text][name=arrival]').val();
+    let dateTo = $('input[type=text][name=departure]').val();
 
-    if ($btn.text() === "ADD NOW") {
-      $btn.text("ADDED!");
-    } else {
-      $btn.text("ADD NOW");
-    }
-
-    illnesses =
-      {
-        "illnesses": illnesses,
-        "dateOfIllnesses":
+    if(illnesses.length === 0) {
+      alert('Enter a illnesses');
+    } else if(dateFrom.length === 0) {
+      alert('Enter the date of beginning of you illnesses');
+    } else if(dateTo.length === 0) {
+      alert('Enter the date of end of you illnesses');
+    } else if (illnesses.length !== 0 && dateFrom.length !== 0 && dateTo.length !== 0) {
+      illnesses =
         {
-          "from": Date.now() / 2,
-          "to": Date.now()
+          "illnesses": illnesses,
+          "dateOfIllnesses":
+          {
+            "from": dateFrom,
+            "to": dateTo
+          }
         }
-      }
-    console.log(illnesses);
-    const username = Session.get('connexionSigned').username;
-    //encryptAndProcessData('medhistory', illnesses, username);
+      console.log(illnesses);
+      const username = Session.get('connexionSigned').username;
+
+      encryptAndProcessData('medhistory', illnesses, username, function(err, result){
+        if(err){
+          console.log(err)
+          console.log('bad');
+        } else {
+          console.log('cool');
+          $btn.toggleClass('booked');
+          $('.diamond').toggleClass('windup');
+          $('form').slideToggle(300);
+          $('.linkbox').toggle(200);
+          if ($btn.text() === "ADD NOW") {
+            $btn.text("ADDED!");
+          } else {
+            $btn.text("ADD NOW");
+          }
+        }
+      });
+    }
   }
 });
 

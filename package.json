@@ -82,11 +82,14 @@
     "webpack": "^2.6.1"
   },
   "devDependencies": {
+    "@meteorjs/eslint-config-meteor": "^1.0.5",
     "babel-eslint": "^6.1.2",
-    "eslint": "^3.2.2",
-    "eslint-config-airbnb": "^10.0.0",
-    "eslint-import-resolver-meteor": "^0.3.1",
-    "eslint-plugin-import": "^1.12.0",
-    "eslint-plugin-meteor": "^4.0.0"
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^10.0.1",
+    "eslint-import-resolver-meteor": "^0.3.4",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-meteor": "^4.0.1",
+    "eslint-plugin-react": "^7.1.0"
   }
 }

@@ -42,7 +42,7 @@ Template.registerHelper('isConnected', () => Session.get('isConnected'));
 
 Template.registerHelper('hasAccount', () => Session.get('address'));
 
-Template.registerHelper('userFound', () => Session.get('userFounded'));
+Template.registerHelper('userFound', () => Session.get('userFound'));
 
 Template.registerHelper('connexionSigned', () => Session.get('connexionSigned'))
 

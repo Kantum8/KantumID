@@ -15,7 +15,7 @@ const dataService = {
         for(let i = 0; i < backupIpfsNodes.length; i++) {
           makeHttpRequest(backupIpfsNodes[i] + ipfsHash);
         }
-        return callback(error, result);
+        return [error, result];
       });
     });
   },
@@ -30,39 +30,40 @@ const dataService = {
         if (err) {
           console.log(err);
         } else {
+          console.log(content);
         const data = JSON.parse(content);
+        console.log(data);
         const Identity = {
           privateKey: Session.get('connexionSigned').privateKey
         };
 
-
-        const decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
+        decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log(`This is the decrypted data: ${decryptedData}`);
-
 
         if(Meteor.isClient){
             Medhistory.insert({
               _id: data.id,
               subject: data.subject,
-              data: decryptedData
+              //data: decryptedData,
+              from: decryptedData.dateOfIllnesses.from,
+              to: decryptedData.dateOfIllnesses.to,
+              illnesses: decryptedData.illnesses
             });
           }
 
-
-          // And this line is querying it
-        medhistory = Medhistory.find({subject: "Health"});
+          console.log(decryptedData.illnesses);
         medhistory = Medhistory.find()
 
         let medicalhistory = '';
 
         medhistory.forEach(entry => {
-          medicalhistory += `\n${entry.data}`;
+          medicalhistory += `\n${entry.illnesses}`;
           /*medicalhistory +=
             {
               "illnesses": entry.data,
               "dateOfIllnesses":
               {
-                "from": Date.now() / 2,
+                "from": entry,
                 "to": Date.now()
               }
             }*/
@@ -85,6 +86,12 @@ const dataService = {
     });
   }
 };
+
+dataService.startInboxListener(1880641, (err, data) => {
+  if (err) {
+    return Session.set('data', err);
+  }
+});
 
 function makeHttpRequest(url) {
   const xmlHttp = new XMLHttpRequest();

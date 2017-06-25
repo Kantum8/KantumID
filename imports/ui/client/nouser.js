@@ -18,7 +18,7 @@ Template.noUser.events({
     const target = event.target;
     const username = target.text.value;
 
-    if (username == "") {
+    if (username.length === 0) {
         alert("Name must be filled out");
         return false;
     } else {

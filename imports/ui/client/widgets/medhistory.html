@@ -60,23 +60,25 @@
   </div>
 
 {{#if modaL}}
-  <div id="modal" class="closed">
-    <div class="diamond"></div>
+  <div id="modal">
+    <div class="diamond">
+       <span class="closer thick"></span>
+     </div>
       <div class="form-wrap">
         <form action="">
-          {{#each getPlaceholderDate}}
+          <!--{{#each getPlaceholderDate}}-->
           <div class="dates">
             <h4>Since when are you sick?</h4><br/>
               <div class="arrival">
                 <label for="arrival">FROM</label><br/>
-                <input name="arrival" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{fromDate}}"/>
+                <input name="arrival" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{getPlaceholderDate fromDate}}"/>
               </div>
               <div class="departure">
                 <label for="arrival">TO</label><br/>
-                <input name="departure" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{toDate}}"/>
+                <input name="departure" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="{{getPlaceholderDate toDate}}"/>
             </div>
           </div>
-        {{/each}}
+        <!--  {{/each}}-->
         </form>
         <button type="button" class="btn-add-med">ADD NOW</button>
         <div class="linkbox">
