@@ -58,6 +58,14 @@ const fields = ['illnessesName', 'description'];
 IllnessesSearch = new SearchSource('illnesses', fields, options);
 
 
+//MedHistory = Meteor.subscribe('medhistory')
+//console.log(MedHistory);
+medhistory = Session.get('medhistory')//Medhistory.find()
+console.log(medhistory);
+
+//console.log(MedHistory.find());
+
+
 Template.medhistory.viewmodel({
   autorun() {
     if (typeof Session.get('data') === 'undefined') {

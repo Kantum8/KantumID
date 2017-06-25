@@ -72,6 +72,7 @@
     "bitcore-lib": "^0.14.0",
     "browser-ipfs": "0.0.6",
     "crypto-js": "^3.1.9-1",
+    "estraverse": "^4.2.0",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.0",
     "openpgp": "^2.5.4",

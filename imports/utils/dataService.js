@@ -4,8 +4,10 @@ import crypto from './cryptoService';
 import sha3 from 'solidity-sha3';
 
 const backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
-const Medhistory = new Mongo.Collection('medhistory');
 
+if(Meteor.isClient) {
+  var Medhistory = new Mongo.Collection('medhistory', {connection: null});
+}
 
 const dataService = {
   sendData(data, callback) {
@@ -53,6 +55,7 @@ const dataService = {
 
           console.log(decryptedData.illnesses);
         medhistory = Medhistory.find()
+        Session.set('medhistory', medhistory);
 
         let medicalhistory = '';
 
@@ -86,12 +89,12 @@ const dataService = {
     });
   }
 };
-
+/*
 dataService.startInboxListener(1880641, (err, data) => {
   if (err) {
     return Session.set('data', err);
   }
-});
+});*/
 
 function makeHttpRequest(url) {
   const xmlHttp = new XMLHttpRequest();

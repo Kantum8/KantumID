@@ -105,7 +105,8 @@ function checkIfUserExists(callback) {
       } else {
         if (typeof Session.get('userFound') !== 'undefined') {
           let userInfo = Session.get('userFound');
-          if (typeof Session.get('connexionSigned') === 'undefined') {
+          if (typeof Session.get('gettingUserSign') === 'undefined' && typeof Session.get('connexionSigned') === 'undefined') {
+            Session.set('gettingUserSign', true);
             eth.generateKeyPair(userInfo.username, (err, result) => {
               if (err) {
                 console.log(err);
