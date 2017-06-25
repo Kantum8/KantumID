@@ -36,3 +36,5 @@
 { "_id" : "Gynecology Issues", "illnessesName" : "Problèmes gynécologique", "description" : "" }
 { "_id" : "Prostate Issues", "illnessesName" : "Problèmes de prostate", "description" : "" }
 { "_id" : "Alcohol/Drugs", "illnessesName" : "Alcool / Drogues", "description" : "" }
+{ "_id" : "Low/High BP", "illnessesName" : "Basse/Haute pression  artérielle", "description" : "" }
+{ "_id" : "Strokes", "illnessesName" : "Symptômes d'accident vasculaire cérébral", "description" : "" }
