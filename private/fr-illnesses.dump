@@ -16,7 +16,7 @@
 { "_id" : "Lung Issues", "illnessesName" : "Problèmes de poumon", "description" : "" }
 { "_id" : "Neuro Issues", "illnessesName" : "Problèmes neurologiques", "description" : "" }
 { "_id" : "Strep Throat", "illnessesName" : "Streptocoque", "description" : "" }
-{ "_id" : "Seizures/Epilepsy", "illnessesName" : "Epilepsie", "description" : "" }
+{ "_id" : "Seizures/Epilepsy", "illnessesName" : "Épilepsie", "description" : "" }
 { "_id" : "Sleep Apnea", "illnessesName" : "Apnée du sommeil", "description" : "" }
 { "_id" : "Migranes", "illnessesName" : "Migraines", "description" : "" }
 { "_id" : "Cataracts", "illnessesName" : "Cataractes", "description" : "" }
@@ -36,3 +36,5 @@
 { "_id" : "Gynecology Issues", "illnessesName" : "Problèmes gynécologique", "description" : "" }
 { "_id" : "Prostate Issues", "illnessesName" : "Problèmes de prostate", "description" : "" }
 { "_id" : "Alcohol/Drugs", "illnessesName" : "Alcool / Drogues", "description" : "" }
+{ "_id" : "Low/High BP", "illnessesName" : "Basse/Haute pression  artérielle", "description" : "" }
+{ "_id" : "Strokes", "illnessesName" : "Symptômes d'accident vasculaire cérébral", "description" : "" }
