@@ -130,7 +130,7 @@ function checkIfUserExists(callback) {
 
 // CHECK sved data
 function checkData(callback) {
-  if (typeof Session.get('connexionSigned') !== 'undefined' && typeof Session.get('data') === 'undefined') {
+  if (typeof Session.get('connexionSigned') !== 'undefined') { // && typeof Session.get('data') === 'undefined') {
     console.log('je joue des maracas');
     dataService.startInboxListener(1880641, (err, data) => {
       if (err) {
@@ -159,6 +159,39 @@ function initSession() {
   Session.set('isConnected', false);
   Session.set('latestBlock', 0);
 }
+
+
+/*
+
+import db from '/imports/utils/dbService';
+
+
+data = 'caca'
+
+db.saveData(data, function(err, result){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
+
+
+db.fetchData(data, function(err, result){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+})
+*/
+
+
+
+
+
+
+
 
 /**
  * Startup code

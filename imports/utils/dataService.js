@@ -1,14 +1,12 @@
 import ipfs from './ipfsService';
 import eth from './ethereumService';
 import crypto from './cryptoService';
+import db from './dbService';
 import sha3 from 'solidity-sha3';
 
 const backupIpfsNodes = ['https://earth.i.ipfs.io/ipfs/', 'https://ipfs.io/ipfs/', 'https://ipfs.infura.io:5001/api/v0/cat/' ];
 
-if(Meteor.isClient) {
-  var Medhistory = new Mongo.Collection('medhistory', {connection: null});
-}
-
+var medhistory = new Mongo.Collection('caca')
 const dataService = {
   sendData(data, callback) {
     ipfs.store(JSON.stringify(data), (error, ipfsHash) => {
@@ -33,15 +31,35 @@ const dataService = {
           console.log(err);
         } else {
           console.log(content);
-        const data = JSON.parse(content);
-        console.log(data);
-        const Identity = {
+          console.log(hash);
+          const data = JSON.parse(content);
+          console.log(data);
+          const Identity = {
           privateKey: Session.get('connexionSigned').privateKey
         };
 
+        console.log(data.data);
         decryptedData = JSON.parse(crypto.decrypt(Identity, data.data));
         console.log(`This is the decrypted data: ${decryptedData}`);
 
+
+
+        db.saveData(data, function(err, result){
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result);
+          }
+        });
+
+        db.fetchData(data.subject, function(err, result){
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(result);
+          }
+        })
+        /*
         if(Meteor.isClient){
             Medhistory.insert({
               _id: data.id,
@@ -53,7 +71,7 @@ const dataService = {
             });
           }
 
-          console.log(decryptedData.illnesses);
+        console.log(decryptedData.illnesses);
         medhistory = Medhistory.find()
         Session.set('medhistory', medhistory);
 
@@ -61,7 +79,7 @@ const dataService = {
 
         medhistory.forEach(entry => {
           medicalhistory += `\n${entry.illnesses}`;
-          /*medicalhistory +=
+          medicalhistory +=
             {
               "illnesses": entry.data,
               "dateOfIllnesses":
@@ -69,11 +87,11 @@ const dataService = {
                 "from": entry,
                 "to": Date.now()
               }
-            }*/
+            }
         });
 
         console.log(medicalhistory);
-
+        */
 
 
         data.data = decryptedData
