@@ -116,7 +116,7 @@ const ethereumService = {
       console.log(`Watching from block: ${startBlock}`);
 
       sendEvent.watch((error, event) => {
-        console.log(`Got incoming data ${JSON.stringify(event)}`);
+        //console.log(`Got incoming data ${JSON.stringify(event)}`);
         callback(event);
       });
 

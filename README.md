@@ -1,7 +1,7 @@
 <img src="public/android-chrome-36x36.png" align="right" />
 
 # KantumID
-> KantumID is an open-source Ethereum based blockchain for citizen can manage their health records.
+> KantumID is an open-source Ethereum based health data management system for citizen take the control again.
 
 
 ## Prerequisites

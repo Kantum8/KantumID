@@ -1,27 +1,31 @@
 MedHistory = new Mongo.Collection('medHistory', {connection: null});
-//const MedHistory = new Mongo.Collection(null);
 
 const dbService = {
 
   saveData(data, callback) {
-  //MedHistory._collection.insert({_id: 'my-medHistory'});
+    const medHistory = MedHistory.findOne(data.id)
+    if (medHistory === undefined) {
       MedHistory.insert({
         _id: data.id,
         subject: data.subject,
         data: data
       });
+    } else {
+      console.log(data.id + ' is ever saved');
+    }
   },
 
-  fetchData(data, callback) {
-    medHistory = MedHistory.find({}).fetch();
-    console.log(medHistory);
+  fetchData(subject, callback) {
+    medHistory = MedHistory.find({subject: subject}).fetch();
+    return callback(null, medHistory);
   }
     /*
     Meteor.methods({
   'todos.updateText'({ todoId, newText }) {
     new SimpleSchema({
-      todoId: { type: String },
-      newText: { type: String }
+      medId: { type: String },
+      subject: { type: String }
+      data: { type: JSON}
     }).validate({ todoId, newText });
     const todo = Todos.findOne(todoId);
     if (!todo.editableBy(this.userId)) {

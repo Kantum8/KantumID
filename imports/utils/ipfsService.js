@@ -23,7 +23,7 @@ const ipfsService = {
       if (err) {
         throw err;
       } else {
-        console.log(`This the data stored on ipfs at: ${res}`);
+        //console.log(`This the data stored on ipfs at: ${res}`);
         return callback(null, res, hash);
       }
     })

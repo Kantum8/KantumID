@@ -11,11 +11,13 @@
             <th></th>
           </tr>
         </thead-->
-            {{#each illnessesHistory}}
+            <!--{{#each illnessesHistory}}-->
+            {{#each illnesses_list}}
           <tbody class="tbody-scrolling">
             <tr class="clickable" {{b "click: baseChange(this)"}}>
               <td></td>
-            <td class="td-coin"><label for="toggle-card-1">{{this}}</label></td>
+            <!--td class="td-coin"><label for="toggle-card-1">{{{data.data.illnesses}}}</label></td-->
+            <td class="td-coin"><label for="toggle-card-1">{{result}}</label></td>
           </tr>
           </tbody>
         <tfoot>
