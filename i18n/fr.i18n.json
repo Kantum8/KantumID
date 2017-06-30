@@ -1,6 +1,6 @@
 {
   "no_connected_ethereum": "NON CONNECTÉ À ETHEREUM",
-  "kantumid_require_ethereum": "KantumID exige qu'un client Ethereum soit en cours d'exécution et actuel. KantumID n'a pas pu détecter un fonctionnement du client qui signifie probablement qu'il n'est pas installé, en cours d'exécution ou est mal configuré.",
+  "kantumid_require_ethereum": "KantumID exige qu'un client Ethereum soit en cours d'exécution et actuel. KantumID n'a pas pu détecter un fonctionnement du client,ce qui signifie probablement qu'il n'est pas installé, en cours d'exécution ou est mal configuré.",
   "p_use_clients": "Utilisez l'un des clients suivants pour vous connecter à Ethereum:",
   "install": "Installer ",
   "use_chrone": "Utilisez Chrome pour naviguer ",
