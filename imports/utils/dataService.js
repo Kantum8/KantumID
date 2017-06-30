@@ -31,7 +31,6 @@ const dataService = {
           console.log(err);
         } else {
           const data = JSON.parse(content);
-          console.log(data);
           const Identity = {
           privateKey: Session.get('connexionSigned').privateKey
         };

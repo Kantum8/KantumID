@@ -11,7 +11,7 @@ const dbService = {
         data: data
       });
     } else {
-      console.log(data.id + ' is ever saved');
+      //console.log(data.id + ' is ever saved');
     }
   },
 
@@ -38,22 +38,9 @@ const dbService = {
   }
 });
   }
-
-/*
-      Medhistory.insert({
-        _id: data.id,
-        subject: data.subject,
-        //data: decryptedData,
-        from: decryptedData.dateOfIllnesses.from,
-        to: decryptedData.dateOfIllnesses.to,
-        illnesses: decryptedData.illnesses
-      });
 */
-
 
 
 };
 
 export default dbService;
-
-// thonquehoa@gmail.com

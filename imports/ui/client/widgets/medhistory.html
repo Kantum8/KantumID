@@ -2,36 +2,37 @@
   <div id="container-medhistory"  class="med-section-content">
     <div>
       <table class="t-medhistory">
-        <!--thead>
+        <thead>
           <tr>
             <th></th>
-              <th class="th-coin">COIN</th>
-              <th class="th-price">PRICE</th>
-              <th class="th-volume">DAILY VOLUME</th>
+              <th class="th-coin">ILLNESSES</th>
+              <th class="th-price">FROM</th>
+              <th class="th-volume">TO</th>
             <th></th>
           </tr>
-        </thead-->
+        </thead>
             <!--{{#each illnessesHistory}}-->
-            {{#each illnesses_list}}
+
           <tbody class="tbody-scrolling">
+              {{#each getIllnessesHistory}}
             <tr class="clickable" {{b "click: baseChange(this)"}}>
               <td></td>
             <!--td class="td-coin"><label for="toggle-card-1">{{{data.data.illnesses}}}</label></td-->
-            <td class="td-coin"><label for="toggle-card-1">{{result}}</label></td>
+            <td class="td-coin"><label for="toggle-card-1">{{this}}</label></td>
           </tr>
+            {{/each}}
           </tbody>
         <tfoot>
           <input type="radio" name="cards" class="card-checkbox" id="toggle-card-1">
 
           <div class="card">
-          	<h2><label>{{this}}</label></h2>
+          	<h2><label></label></h2>
             <label for="put-cards-down" class="dialog-window__button">&times;</label>
             <p>You had pneumonia on April 13, 2017</p>
           </div>
 
           <input type="radio" name="cards" class="card-checkbox" id="put-cards-down">
         </tfoot>
-            {{/each}}
       </table>
     </div>
   </div>

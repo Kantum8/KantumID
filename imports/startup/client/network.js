@@ -161,37 +161,6 @@ function initSession() {
 }
 
 
-/*
-
-import db from '/imports/utils/dbService';
-
-
-data = 'caca'
-
-db.saveData(data, function(err, result){
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-});
-
-
-db.fetchData(data, function(err, result){
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(result);
-  }
-})
-*/
-
-
-
-
-
-
-
 
 /**
  * Startup code

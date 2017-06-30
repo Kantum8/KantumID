@@ -58,52 +58,19 @@ const options = {
 const fields = ['illnessesName', 'description'];
 IllnessesSearch = new SearchSource('illnesses', fields, options);
 
-Template.medhistory.viewmodel({
-  autorun() {
-  if (typeof Session.get('data') === 'undefined') {
-      name = 'Add a illnesses';
-    } else {
-      if (name.length === 0) {
-        name = "Add a illnesses."
-      }
-    }
-
-    illnessesHistory: [name];
-
-  },
-  illnessesHistory: [name]
-
-})
 
 Template.medhistory.helpers({
-  illnesses_list() {
-   return db.fetchData("medhistory", (err, result) => {
-      /*if (err) {
-        console.log(err);
-      } else {*/
-        console.log(result);
-        return result.forEach(element => {
-          console.log(element.data.data.illnesses);
-          return element
-        });
-      //}
-      //return result;
+  getIllnessesHistory() {
+    var illnessesHistory = []
+    db.fetchData("medhistory", (err, result) => {
+      result.forEach(element => {
+        illnessesHistory.push(element.data.data.illnesses);
+        return illnessesHistory;
+      });
     });
-  }
+    return illnessesHistory;
+  },
 })
-
-    /*if (result !== undefined) {
-      let i = result.length;
-      console.log(i);
-      console.log(result[i].data);
-      return result[i].data;
-    }
-    result = MedHistory.find({}).fetch();
-    result.forEach(function(element) {
-      console.log(element.data.data.illnesses);
-      return element
-  //namet.data.data;
-})*/
 
 Template.searchResult.onRendered(() => {
   return Session.set('modaL', false);
