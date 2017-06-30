@@ -18,7 +18,7 @@
   "languages": "Langues",
   "account": "Compte:",
   "welcome": "Bienvenue !",
-  "kantumid_desciption": "KantumID est une application décentralisée où un citoyen peut conserver et contrôler ses propres données médical, puis les partager avec un fournisseur de soins de santé ou des chercheurs.",
+  "kantumid_desciption": "KantumID est une application décentralisée où un citoyen peut conserver et contrôler ses propres données médicales, puis soit les partager avec un fournisseur de soins de santé ou bien avec des chercheurs.",
   "warning": "Attention !",
   "kantumid_warning": "KantumID est en pre-alpha: toute information enregistrée sur KantumID pourrait être perdue en cas de violation de sécurité.",
   "my_info": "MES INFO",
@@ -44,7 +44,7 @@
   "zipcode": "Code postal",
   "birthday": "Date de naissance",
   "soc_sec_number": "Numéro de sécurité sociale",
-  "update_info": "UPDATE MY INFORMATIONS",
+  "update_info": "METTRE A JOUR MES INFORMATIONS",
   "delete_account": "SUPPRIMER MON COMPTE",
   "action_irreverssible": "Cette action est IRREVERSIBLE",
   "sentance_confirm_delete": "Ecrire: \"Je veux supprimer mon compte.\", Pour supprimer votre compte."
