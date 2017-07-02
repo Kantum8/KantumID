@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { moment } from 'meteor/momentjs:moment';
 import { Session } from 'meteor/session';
 import eth from '/imports/utils/ethereumService';
+import err from '/imports/utils/errorService';
 
 import './nouser.html';
 
@@ -11,6 +12,9 @@ Template.noUser.onRendered(() => {
 });
 
 Template.noUser.events({
+  'click .close'(event, instance) {
+    return Session.set('error', false)
+  },
   'submit .register'(event, instance) {
     // Prevent default browser form submit
     event.preventDefault();
@@ -19,8 +23,18 @@ Template.noUser.events({
     const username = target.text.value;
 
     if (username.length === 0) {
-        alert("Name must be filled out");
-        return false;
+      $('.message-error').addClass('active');
+        setTimeout(function(){
+          $('.btn').removeClass('loading');
+        }, 500);
+
+      function closeMessage() {
+        $('.message-error').removeClass('active');
+      }
+
+      $('.close').click(closeMessage);
+
+      return false;
     } else {
       eth.registerUser(username, function(error, events) {
         if(events) {

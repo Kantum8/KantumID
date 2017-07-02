@@ -5,32 +5,64 @@
         <thead>
           <tr>
             <th></th>
-              <th class="th-coin">ILLNESSES</th>
-              <th class="th-price">FROM</th>
-              <th class="th-volume">TO</th>
+              <th class="th-illnesses">ILLNESSES</th>
+              <th class="th-from">FROM</th>
+              <th class="th-to">TO</th>
             <th></th>
           </tr>
         </thead>
-            <!--{{#each illnessesHistory}}-->
-
           <tbody class="tbody-scrolling">
-              {{#each getIllnessesHistory}}
+            {{#each getIllnessesHistory}}
             <tr class="clickable" {{b "click: baseChange(this)"}}>
               <td></td>
-            <!--td class="td-coin"><label for="toggle-card-1">{{{data.data.illnesses}}}</label></td-->
-            <td class="td-coin"><label for="toggle-card-1">{{this}}</label></td>
-          </tr>
+              <td class="td-illnesses">
+                <label for="toggle-card-1">
+                  {{this.illnesses}}
+                </label>
+              </td>
+              <td class="td-from">
+                {{this.dateOfIllnesses.from}}
+              </td>
+              <td class="td-to">
+                {{this.dateOfIllnesses.to}}
+              </td>
+              <!--td class="td-from">
+                {{#if loadingTradeHistory}}
+                  <span class="loading-icon">
+                    {{{loadingIcon}}}
+                  </span>
+                {{else}}
+                  {{#if equals (price this) 'N/A'}}
+                    N/A
+                  {{else}}
+                    {{{formatNumber (price this) '' true}}}
+                  {{/if}}
+                {{/if}}
+              </td>
+              <td class="td-to">
+                {{#if loadingTradeHistory}}
+                  <span class="loading-icon">
+                    {{{loadingIcon}}}
+                  </span>
+                {{else}}
+                  {{{formatBalance (volume this) 2 '' true}}}
+                {{/if}}
+              </td>-->
+              <td></td>
+            </tr>
             {{/each}}
+          {{sort}}
           </tbody>
+
         <tfoot>
           <input type="radio" name="cards" class="card-checkbox" id="toggle-card-1">
-
+          {{#each getIllnessesHistory}}
           <div class="card">
           	<h2><label></label></h2>
             <label for="put-cards-down" class="dialog-window__button">&times;</label>
-            <p>You had pneumonia on April 13, 2017</p>
+            <p>You had {{this.illnesses}} from the {{this.dateOfIllnesses.from}} to the {{this.dateOfIllnesses.to}}</p>
           </div>
-
+          {{/each}}
           <input type="radio" name="cards" class="card-checkbox" id="put-cards-down">
         </tfoot>
       </table>

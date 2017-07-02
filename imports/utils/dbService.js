@@ -1,11 +1,11 @@
-MedHistory = new Mongo.Collection('medHistory', {connection: null});
+UserData = new Mongo.Collection('userData', {connection: null});
 
 const dbService = {
 
   saveData(data, callback) {
-    const medHistory = MedHistory.findOne(data.id)
-    if (medHistory === undefined) {
-      MedHistory.insert({
+    const userData = UserData.findOne(data.id)
+    if (userData === undefined) {
+      UserData.insert({
         _id: data.id,
         subject: data.subject,
         data: data
@@ -16,8 +16,8 @@ const dbService = {
   },
 
   fetchData(subject, callback) {
-    medHistory = MedHistory.find({subject: subject}).fetch();
-    return callback(null, medHistory);
+    userData = UserData.find({subject: subject}).fetch();
+    return callback(null, userData);
   }
     /*
     Meteor.methods({

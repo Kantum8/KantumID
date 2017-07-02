@@ -62,9 +62,9 @@ IllnessesSearch = new SearchSource('illnesses', fields, options);
 Template.medhistory.helpers({
   getIllnessesHistory() {
     var illnessesHistory = []
-    db.fetchData("medhistory", (err, result) => {
+    db.fetchData('medhistory', (err, result) => {
       result.forEach(element => {
-        illnessesHistory.push(element.data.data.illnesses);
+        illnessesHistory.push(element.data.data);
         return illnessesHistory;
       });
     });
