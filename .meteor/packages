@@ -39,3 +39,5 @@ mikowals:batch-insert
 meteorhacks:search-source
 check@1.2.5
 mdg:meteor-apm-agent
+accounts-ui
+skarrakc2:accounts-fitbit2

@@ -105,9 +105,9 @@ Template.profileinformations.events({
     if (zipcode.length === 0) {
       zipcode = $('input[name=zipcode]').attr('placeholder');
     }
-    let birthday = $('input[name=birthday]').val();
-    if (birthday.length === 0) {
-      birthday = $('input[name=birthday]').attr('placeholder');
+    let dateOfBirth = $('input[name=dateOfBirth]').val();
+    if (dateOfBirth.length === 0) {
+      dateOfBirth = $('input[name=dateOfBirth]').attr('placeholder');
     }
     let socialSecurityNumber = $('input[name=socialSecurityNumber]').val();
     if (socialSecurityNumber.length === 0) {
@@ -124,7 +124,7 @@ Template.profileinformations.events({
       city: city,
       state: state,
       zipcode: zipcode,
-      birthday: birthday,
+      birthday: dateOfBirth,
       socialSecurityNumber: socialSecurityNumber
     }
 

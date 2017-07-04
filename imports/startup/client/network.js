@@ -161,6 +161,208 @@ function initSession() {
 }
 
 
+/*
+var request = require('request')
+
+var Purest = require('purest')
+var fitbit = new Purest({provider:'fitbit',
+  key:'228KHB', secret:'f905c6313d7c50fe716164f2468c379d'})
+
+fitbit.get('user/-/profile', {
+  oauth:{token:'fitbit.token', secret:'fitbit.secret'}
+}, function (err, res, body) {})
+d blaze
+
+/*
+var express = require("express"),
+    app = express();
+
+// initialize the Fitbit API client
+var FitbitApiClient = require("fitbit-node"),
+    client = new FitbitApiClient("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET");
+
+// redirect the user to the Fitbit authorization page
+app.get("/authorize", function (req, res) {
+    // request access to the user's activity, heartrate, location, nutrion, profile, settings, sleep, social, and weight scopes
+    res.redirect(client.getAuthorizeUrl('activity heartrate location nutrition profile settings sleep social weight', 'YOUR_CALLBACK_URL'));
+});
+
+// handle the callback from the Fitbit authorization flow
+app.get("/callback", function (req, res) {
+    // exchange the authorization code we just received for an access token
+    client.getAccessToken(req.query.code, 'YOUR_CALLBACK_URL').then(function (result) {
+        // use the access token to fetch the user's profile information
+        client.get("/profile.json", result.access_token).then(function (results) {
+            res.send(results[0]);
+        });
+    }).catch(function (error) {
+        res.send(error);
+    });
+});
+
+// launch the server
+app.listen(3000);
+
+ServiceConfiguration.configurations.remove({
+    service: "fitbit"
+  });
+
+ServiceConfiguration.configurations.upsert(
+  { service: "fitbit" },
+  { $set: { consumerKey: "228KHB", secret: "f905c6313d7c50fe716164f2468c379d"} }
+);
+
+/*
+Fitbit = {};
+
+// Request LinkedIn credentials for the user
+// @param options {optional}
+// @param credentialRequestCompleteCallback {Function} Callback function to call on
+//   completion. Takes one argument, credentialToken on success, or Error on
+//   error.
+Fitbit.requestCredential = function (options, credentialRequestCompleteCallback) {
+  console.log('🔑', 'Fitbit.requestCredential');
+  // support both (options, callback) and (callback).
+  if (!credentialRequestCompleteCallback && typeof options === 'function') {
+    credentialRequestCompleteCallback = options;
+    options = {};
+  }
+
+  const config = ServiceConfiguration.configurations.findOne({service: 'fitbit'});
+  console.log('🔑 config', config);
+  if (!config) {
+    credentialRequestCompleteCallback && credentialRequestCompleteCallback(new ServiceConfiguration.ConfigError("Service not configured"));
+    console.log('🔑', 'returning no config');
+    return;
+  }
+
+  const credentialToken = Random.secret();
+
+  let scope = [];
+  if (options && options.requestPermissions) {
+      scope = options.requestPermissions.join('+');
+  }
+
+  const loginStyle = OAuth._loginStyle('fitbit', config, options);
+
+  const loginUrl =
+        'https://www.fitbit.com/oauth2/authorize' +
+        '?response_type=code' + '&client_id=' + config.clientId +
+        '&redirect_uri=' + OAuth._redirectUri'fitbit', config) +
+        '&scope=' + scope +
+        '&state=' + OAuth._stateParam(loginStyle, credentialToken);
+
+  OAuth.launchLogin({
+    loginService: "fitbit",
+    loginStyle: loginStyle,
+    loginUrl: loginUrl,
+    credentialRequestCompleteCallback: credentialRequestCompleteCallback,
+    credentialToken: credentialToken
+  });
+};
+*/
+
+
+
+
+
+
+
+
+/*
+
+var FitbitClient = require('fitbit-client-oauth2');
+var client = new FitbitClient(228KHB, f905c6313d7c50fe716164f2468c379d);
+var redirect_uri = 'https://9d79e3a3.ngrok.io';
+var scope =  [ 'activity', 'nutrition', 'profile', 'settings', 'sleep', 'social', 'weight' ];
+
+    // server.get
+    HTTP.get('/auth/fitbit', function(req, res, next) {
+
+        var authorization_uri = client.getAuthorizationUrl(redirect_uri, scope);
+
+        res.redirect(authorization_uri);
+    });
+
+    // If /auth/fitbit/callbac is your redirec_uri
+
+    server.get('/auth/fitbit/callback', function(req, res, next) {
+
+        var code = req.query.code;
+
+        client.getToken(code, redirect_uri)
+            .then(function(token) {
+
+                // ... save your token on db or session...
+                console.log(token + 'this ');
+                // then redirect
+                //res.redirect(302, '/user');
+
+            })
+            .catch(function(err) {
+                // something went wrong.
+                res.send(500, err);
+
+            });
+
+    });
+
+
+
+
+/**
+ * Server functionality (boilerplate).
+ * Ensures sanity of published user object.
+ *
+} else {
+  Accounts.addAutopublishFields({
+    forLoggedInUser: _.map(
+      /**
+       * Logged in user gets whitelisted fields + accessToken + expiresAt.
+       *
+
+    Fitbit.whitelistedFields.concat(['accessToken', 'expiresAt']), // don't publish refresh token
+      function(subfield) {
+        return 'services.fitbit.' + subfield;
+      }),
+
+    forOtherUsers: _.map(
+      /**
+       * Other users get whitelisted fields without emails, because even with
+       * autopublish, no legitimate web app should be publishing all users' emails.
+       *
+      _.without(Fitbit.whitelistedFields, 'email', 'verified_email'),
+      function(subfield) {
+        return 'services.fitbit.' + subfield;
+      })
+  });
+}
+/*
+
+import passport from 'passport';
+
+User = new Mongo.Collection('user');
+
+var FitbitStrategy = require('passport-fitbit-oauth2').FitbitOAuth2Strategy;
+
+passport.use(new FitbitStrategy({
+    clientID:     "228KHB",
+    clientSecret: "f905c6313d7c50fe716164f2468c379d",
+    callbackURL: "https://kantumid.eu.meteorapp.com/"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(accessToken);
+    console.log(refreshToken);
+    console.log(profile);
+    User.findOrCreate({ fitbitId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+passport.authenticate('fitbit', { scope: ['activity','heartrate','location','profile'] });
+
+
 
 /**
  * Startup code
