@@ -51,6 +51,7 @@ export const encryptAndProcessData = (subject, data, username, callback) => {
   });
 }
 
+
 const options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: true
