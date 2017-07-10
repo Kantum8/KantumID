@@ -19,7 +19,7 @@ const dataService = {
     });
   },
   startInboxListener(startingBlock, callback) {
-    console.log("Starting inbox listener");
+    //console.log("Starting inbox listener");
 
     eth.watchForIncomingData(startingBlock, ({args, transactionHash}) => {
       const isReply = args.inReplyToIpfsHash != 'null';

@@ -113,7 +113,7 @@ const ethereumService = {
     watchForIncomingData(startBlock, callback) {
       const sendEvent = kantumidContract.SendData({to: web3.eth.accounts[0]}, {fromBlock: startBlock, toBlock: 'latest'});
 
-      console.log(`Watching from block: ${startBlock}`);
+      //console.log(`Watching from block: ${startBlock}`);
 
       sendEvent.watch((error, event) => {
         //console.log(`Got incoming data ${JSON.stringify(event)}`);

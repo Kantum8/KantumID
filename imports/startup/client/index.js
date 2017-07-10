@@ -8,6 +8,8 @@ import '../../ui/client/widgets/symptoms.js';
 import '../../ui/client/widgets/familyhistory.js';
 import '../../ui/client/widgets/profileinformations.js';
 
+import '../../ui/client/widgets/melanoma.js';
+
 
 import '../../ui/client/headers/languageselector.js';
 import '../../ui/client/headers/accountselector.js';

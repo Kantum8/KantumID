@@ -21,7 +21,7 @@ function checkNetwork() {
               Session.set('outOfSync', e != null || (new Date().getTime() / 1000) - timestamp > 600);
               Session.set('latestBlock', number);
               if (Session.get('startBlock') === 0) {
-                console.log(`Setting startblock to ${number - 6000}`);
+                //console.log(`Setting startblock to ${number - 6000}`);
                 Session.set('startBlock', (number - 6000));
               }
             } else {
@@ -120,7 +120,7 @@ function checkIfUserExists(callback) {
               }
             });
           } else {
-            console.log('Session is ever signed');
+            //console.log('Session is ever signed');
           }
         }
       }
@@ -248,13 +248,14 @@ function googleApi() {
 }
 
 
+
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
 Meteor.setInterval(checkIfUserExists, 11657);
 Meteor.setInterval(checkData, 11200);
 
 
-Meteor.setInterval(googleApi, 100000);
+Meteor.setInterval(googleApi, 1000000);
 });
 
 Meteor.autorun(() => {
