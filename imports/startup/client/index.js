@@ -8,7 +8,9 @@ import '../../ui/client/widgets/symptoms.js';
 import '../../ui/client/widgets/familyhistory.js';
 import '../../ui/client/widgets/profileinformations.js';
 
-import '../../ui/client/widgets/melanoma.js';
+// Bot Import
+import '../../ui/client/widgets/bot/chat.js';
+import '../../ui/client/widgets/bot/message.js';
 
 
 import '../../ui/client/headers/languageselector.js';

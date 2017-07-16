@@ -214,7 +214,6 @@ if(typeof web3 !== 'undefined') {
 
 var scopes = [
   'https://www.googleapis.com/auth/fitness.activity.write',	// View and store your activity information in Google Fit
-/*
   'https://www.googleapis.com/auth/fitness.blood_glucose.write', //	View and store blood glucose data in Google Fit
   'https://www.googleapis.com/auth/fitness.blood_pressure.write', //	View and store blood pressure data in Google Fit
   'https://www.googleapis.com/auth/fitness.body.write', //	View and store body sensor data in Google Fit
@@ -223,7 +222,6 @@ var scopes = [
   'https://www.googleapis.com/auth/fitness.nutrition.write', //	View and store nutrition information in Google Fit
   'https://www.googleapis.com/auth/fitness.oxygen_saturation.write', //	View and store oxygen saturation data in Google Fit
   'https://www.googleapis.com/auth/fitness.reproductive_health.write' //	View and store reproductive health data in Google Fit
-*/
 ]
 
 Accounts.ui.config({
