@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'apple-category';
-  src: url(http://timetoknow.github.io/emoji-panel/dist/asset/apple.ttf) format("truetype");
+  src: url('/fonts/apple.ttf') format("truetype");
   font-weight: normal;
   font-style: normal; }
 
