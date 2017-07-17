@@ -34,3 +34,12 @@ if(FrIllnesses.find().count() < FrillnessesDump.length) {
   };
   console.log("completed!");
 }
+
+/*
+recipient = 'SkinCancerBot'
+recipient = 'MinisterAssistantBot'
+address = Session.get('address')
+username = Session.get('connexionSigned').username
+let chatId = `${address}${username}${recipient}`;
+Meteor.call('chats.insert', chatId, content, recipient, 'bot');
+*/

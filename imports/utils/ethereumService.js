@@ -6,8 +6,8 @@ import bitcore from 'bitcore-lib';
 // KantumID contract info
 const contractAbi =
 [{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"ipfsHash","type":"string"},{"name":"inReplyToId","type":"bytes32"},{"name":"inReplyToIpfsHash","type":"string"}],"name":"sendData","outputs":[{"name":"result","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"username","type":"bytes32"},{"name":"publicKey","type":"string"}],"name":"registerUser","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"administrator","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"username","type":"bytes32"},{"indexed":true,"name":"addr","type":"address"},{"indexed":false,"name":"publicKey","type":"string"}],"name":"BroadcastPublicKey","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"datalId","type":"bytes32"},{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":true,"name":"inReplyToId","type":"bytes32"},{"indexed":false,"name":"inReplyToIpfsHash","type":"string"}],"name":"SendData","type":"event"}];
-const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
-
+//const contractAddress = '0xEA83b57Dcee187705F281aA79df051C393611E42';
+const contractAddress = '0x388AAbf11c9deb248f27a219aa307aE48B3fd3EB';
 
 if(typeof web3 !== 'undefined') {
   var kantumidContract = web3.eth.contract(contractAbi).at(contractAddress);
@@ -21,7 +21,8 @@ const ethereumService = {
       return callback(false);
     } else {
     // DEV env
-      web3.eth.getTransaction('0x058f91867894499d7c113ef4e2ff2af1613f764a1e43227f46ea54b908e414d9', (error, result) => {
+    //  web3.eth.getTransaction('0x058f91867894499d7c113ef4e2ff2af1613f764a1e43227f46ea54b908e414d9', (error, result) => {
+      web3.eth.getTransaction('0xcf17cc7330ac8cf664a6c3c13b87608a0e8cc737ec17de38732ea7cdb256e4de', (error, result) => {
         if(result == null) {
           console.log(`Web3 error: ${error}`);
           return callback(false);

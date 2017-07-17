@@ -89,19 +89,19 @@ Template.inboxmessages.events({
     fileReader.onload = () => {
       let images = fileReader.result;
       let content = images;
-      Meteor.call('chats.insert', chatId.chatId, null, chatId.recipient);
-      Meteor.call('messages.insert', chatId, 'user', 'image', content);
-      document.getElementById("scroll-content").scrollTop += $('#scroll-content').height();
+      //Meteor.call('chats.insert', chatId.chatId, null, chatId.recipient);
+    //  Meteor.call('messages.insert', chatId, 'user', 'image', content);
+      //document.getElementById("scroll-content").scrollTop += $('#scroll-content').height();
 
-/*
-      Let you to create new chat
-      recipient = 'SkinCancerBot'
+
+      //Let you to create new chat
+      //recipient = 'SkinCancerBot'
       recipient = 'MinisterAssistantBot'
       address = Session.get('address')
       username = Session.get('connexionSigned').username
       let chatId = `${address}${username}${recipient}`;
       Meteor.call('chats.insert', chatId, content, recipient, 'bot');
-*/
+
 
 
       // Call skin cancer api
