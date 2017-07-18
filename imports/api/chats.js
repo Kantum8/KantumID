@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { _ } from 'lodash';
+import whisperServices from '/imports/utils/whisperServices';
 
 
 export const Chats = new Mongo.Collection('chat');
@@ -24,10 +25,8 @@ if (Meteor.isServer) {
       }
     },
 
-    'chats.updateLastMessage' (chatId, lastMessage) {
-      console.log(chatId);
-      console.log(lastMessage);
-      return Chats.update(chatId, {$set: {lastMessage: lastMessage}});
+    'chats.updateLastMessage' (_id, chatId, lastMessage) {
+      Chats.update(_id: _id, {$set: {lastMessage: lastMessage}});
     },
 
     'chats.updateStep' (_id, step) {

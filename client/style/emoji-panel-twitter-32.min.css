@@ -112,7 +112,7 @@
 }
 .ep-e {
   width: 20px;
-  background-image: url(http://timetoknow.github.io/emoji-panel/dist/asset/sheet_twitter_20.png);
+  background-image: url('sheet_twitter_20.png');
 }
 .ep-slide {
   width: 12.5%;

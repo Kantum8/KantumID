@@ -5,3 +5,14 @@
 * change account no user go interface template noUser
 * charging medhistory with a loading icon
 * divise scss en fichier un par composant
+* Run node ipfs inside the browser
+
+
+// Feature to implement
+* Whisper messaging
+* Api for bot
+* OpenEHR & ICD-TEN
+* Implementation of uPort
+* Go to react
+* Go to mobile app
+* Go to electron app
