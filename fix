@@ -9,6 +9,9 @@
 
 
 // Feature to implement
+* Create real chatbot with
+* When user create button add fitbit google fit, endorsement identity,  profile configuration for chat
+* Adding googlefit fitbit carnet de sante
 * Whisper messaging
 * Api for bot
 * OpenEHR & ICD-TEN

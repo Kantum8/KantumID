@@ -48,3 +48,4 @@ skarrakc2:accounts-fitbit2
 http@1.2.12
 jquery@1.11.10
 meteorhacks:aggregate
+ejson

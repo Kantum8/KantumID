@@ -249,8 +249,8 @@ function googleApi() {
 
 Meteor.setInterval(checkNetwork, 2503);
 Meteor.setInterval(checkAccounts, 10657);
-Meteor.setInterval(checkIfUserExists, 11657);
-Meteor.setInterval(checkData, 11200);
+Meteor.setInterval(checkIfUserExists, 15657);
+Meteor.setInterval(checkData, 16200);
 
 
 Meteor.setInterval(googleApi, 1000000);

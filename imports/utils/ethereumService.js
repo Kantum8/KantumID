@@ -40,21 +40,22 @@ const ethereumService = {
   },
  // Check if current MetaMask user has already registered an account
   checkIfUserExists(callback) {
-    if (typeof web3 !== 'undefined' && web3 !== null && kantumidContract !== 'undefined') {
+    if (typeof web3 !== 'undefined' && web3 !== null) {
+      if (kantumidContract !== 'undefined' && kantumidContract !== undefined) {
+        const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
 
-      const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
-
-      broadcastPublicKeyEvent.get((error, events) => {
-        if(!events.length) {
-          return callback(null, Session.set('userNotFound', true));
-        } else {
-          const userInfo = {
-            "username": web3.toAscii(events[0].args.username),
-            "startingBlock" : events[0].blockNumber
+        broadcastPublicKeyEvent.get((error, events) => {
+          if(!events.length) {
+            return callback(null, Session.set('userNotFound', true));
+          } else {
+            const userInfo = {
+              "username": web3.toAscii(events[0].args.username),
+              "startingBlock" : events[0].blockNumber
+            };
+            return callback(null, Session.set('userFound', userInfo));
           };
-          return callback(null, Session.set('userFound', userInfo));
-        };
-      });
+        });
+      }
     }
   },
   // Generate key pair

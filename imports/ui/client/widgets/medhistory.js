@@ -56,7 +56,7 @@ const options = {
   keepHistory: 1000 * 60 * 5,
   localSearch: true
 };
-const fields = ['illnessesName', 'description'];
+const fields = ['d', 'c'];
 IllnessesSearch = new SearchSource('illnesses', fields, options);
 
 
@@ -82,10 +82,11 @@ Template.searchResult.helpers({
   getIllnesses() {
     return IllnessesSearch.getData({
       transform(matchText, regExp) {
+        console.log(matchText);
+        console.log(regExp);
         return matchText.replace(regExp, "<b>$&</b>");
       },
-      limit: 3,
-      sort: {isoScore: -1}
+      limit: 3
     });
   },
   getPlaceholderDate() {
@@ -96,15 +97,15 @@ Template.searchResult.helpers({
       fromDate: moment().subtract(5, 'days').calendar(),
       toDate: moment().format('L')
     }
-    //return [fromDate, toDate]
-  /*  return date = {
-        fromDate: fromDate,
-        toDate: toDate
-    };
-    console.log(date.fromDate);
-    //console.log(date);
-    //return date;*/
-  }
+  },
+});
+
+Template.searchBox.events({
+  "keyup #search-box": _.throttle(({target}) => {
+    const text = $(target).val().trim();
+    console.log(text);
+    IllnessesSearch.search(text);
+  }, 200),
 });
 
 
@@ -162,11 +163,4 @@ Template.searchResult.events({
       });
     }
   }
-});
-
-Template.searchBox.events({
-  "keyup #search-box": _.throttle(({target}) => {
-    const text = $(target).val().trim();
-    IllnessesSearch.search(text);
-  }, 200),
 });

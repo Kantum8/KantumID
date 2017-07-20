@@ -1,11 +1,12 @@
-/*/var net = require('net');
-import net from 'net';
-//var Web3 = require('./src/index.js'); var web3 = new Web3(new Web3.providers.IpcProvider('/Users/frozeman/Library/Ethereum/geth.ipc', net));
-//var Web3 = require('./src/index.js');
+/*
 import Web3 from 'web3';
-var web3 = new Web3(new Web3.providers.IpcProvider('https://61ca1159.ngrok.io', net));
-var shh = web3.shh;
-
+//var web3 = new Web3(new Web3.providers.IpcProvider('https://61ca1159.ngrok.io', net));
+var web310 = new Web3();
+web310.setProvider(new web310.providers.HttpProvider('https://61ca1159.ngrok.io'));
+var shh = web310.shh;
+console.log(shh);
+jean = web310.version
+console.log(jean);
 var identities = [];
 var subscription = null;
 
@@ -101,11 +102,22 @@ function printMessage(message, myUsername) {
 		console.log("[" + time(message) + " " + name + "/" + sender(message) + "]" + parts.slice(1).join(":"));
 	}
 }
-export default whisperServices;
+/*
+console.log(whisperServices.setUsername("string"));
+console.log(whisperServices.join("jeandelafontainejouealapetanqueavecdesornitorinques"));
+console.log("* chat.leave()");
+console.log(whisperServices.say("jeandelafontainejouealapetanqueavecdesornitorinques"));
 
 
 
-//const whisperServices = {
+*/
+
+
+//export default whisperServices;
+
+
+
+/*/const whisperServices = {
   Promise.all([
       shh.newSymKey().then((id) => {identities.push(id);}),
       shh.newKeyPair().then((id) => {identities.push(id);})
@@ -195,7 +207,7 @@ var message = {
   topics: [topic],
   payload: payload,
   ttl: 100,
-  workToProve: 100 // or priority TODO
+  workToProve: 100 // or priority 
 };
 
 /*
