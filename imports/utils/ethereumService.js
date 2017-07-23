@@ -16,7 +16,7 @@ if(typeof web3 !== 'undefined') {
 // Public functions to be exported
 const ethereumService = {
   initialize(callback) {
-    if(typeof web3 === 'undefined') {
+    if(typeof web3 === 'undefined' && typeof web3 !== null) {
       console.log("Metamask not detected");
       return callback(false);
     } else {
@@ -40,7 +40,7 @@ const ethereumService = {
   },
  // Check if current MetaMask user has already registered an account
   checkIfUserExists(callback) {
-    if (typeof web3 !== 'undefined' && web3 !== null) {
+    if (Session.get('isConnected') === true) {
       if (kantumidContract !== 'undefined' && kantumidContract !== undefined) {
         const broadcastPublicKeyEvent = kantumidContract.BroadcastPublicKey({addr: web3.eth.accounts[0]}, {fromBlock: 0, toBlock: 'latest'});
 

@@ -9,72 +9,69 @@ import crypto from '/imports/utils/cryptoService';
 
 // CHECK FOR NETWORK
 function checkNetwork() {
-  eth.initialize(connected => {
-    if(typeof web3 !== 'undefined') {
-      web3.version.getNode((error) => {
-        const isConnected = !error;
+  if(typeof web3 !== undefined) {
+    web3.version.getNode((result, error) => {
+      const isConnected = !error;
+      //Check if we are synced
+      if (isConnected !== false) {
+        web3.eth.getBlock('latest', (e, {number, timestamp}) => {
+          if (number >= Session.get('latestBlock')) {
+            Session.set('outOfSync', e != null || (new Date().getTime() / 1000) - timestamp > 600);
+            Session.set('latestBlock', number);
+            if (Session.get('startBlock') === 0) {
+              //console.log(`Setting startblock to ${number - 6000}`);
+              Session.set('startBlock', (number - 6000));
+            }
+          } else {
+            // XXX MetaMask frequently returns old blocks
+            // https://github.com/MetaMask/metamask-plugin/issues/504
+            console.debug('Skipping old block');
+          }
+        });
+      }
 
-        //Check if we are synced
-        if (isConnected) {
-          web3.eth.getBlock('latest', (e, {number, timestamp}) => {
-            if (number >= Session.get('latestBlock')) {
-              Session.set('outOfSync', e != null || (new Date().getTime() / 1000) - timestamp > 600);
-              Session.set('latestBlock', number);
-              if (Session.get('startBlock') === 0) {
-                //console.log(`Setting startblock to ${number - 6000}`);
-                Session.set('startBlock', (number - 6000));
+      // Check which network are we connected to
+      // https://github.com/ethereum/meteor-dapp-wallet/blob/90ad8148d042ef7c28610115e97acfa6449442e3/app/client/lib/ethereum/walletInterface.js#L32-L46
+      if (!Session.equals('isConnected', isConnected)) {
+        if (isConnected === true) {
+          web3.eth.getBlock(0, (e, {hash}) => {
+            let network = false;
+            if (!e) {
+              switch (hash) {
+                case '0xa3c565fc15c7478862d50ccd6561e3c06b24cc509bf388941c25ea985ce32cb9':
+                  network = 'kovan';
+                  Session.set('AVGBlocksPerDay', 21600);
+                  break;
+                case '0x ...':
+                  network = 'ropsten';
+                  Session.set('AVGBlocksPerDay', 5760);
+                  break;
+                case '0x ...':
+                  network = 'main';
+                  Session.set('AVGBlocksPerDay', 5760);
+                  break;
+                default:
+                  network = 'private';
               }
-            } else {
-              // XXX MetaMask frequently returns old blocks
-              // https://github.com/MetaMask/metamask-plugin/issues/504
-              console.debug('Skipping old block');
+            }
+            if (!Session.equals('network', network)) {
+              initNetwork(network, isConnected);
             }
           });
+        } else {
+          Session.set('isConnected', isConnected);
+          Session.set('network', false);
+          Session.set('latestBlock', 0);
         }
-
-        // Check which network are we connected to
-        // https://github.com/ethereum/meteor-dapp-wallet/blob/90ad8148d042ef7c28610115e97acfa6449442e3/app/client/lib/ethereum/walletInterface.js#L32-L46
-        if (!Session.equals('isConnected', isConnected)) {
-          if (isConnected === true) {
-            web3.eth.getBlock(0, (e, {hash}) => {
-              let network = false;
-              if (!e) {
-                switch (hash) {
-                  case '0xa3c565fc15c7478862d50ccd6561e3c06b24cc509bf388941c25ea985ce32cb9':
-                    network = 'kovan';
-                    Session.set('AVGBlocksPerDay', 21600);
-                    break;
-                  case '0x ...':
-                    network = 'ropsten';
-                    Session.set('AVGBlocksPerDay', 5760);
-                    break;
-                  case '0x ...':
-                    network = 'main';
-                    Session.set('AVGBlocksPerDay', 5760);
-                    break;
-                  default:
-                    network = 'private';
-                }
-              }
-              if (!Session.equals('network', network)) {
-                initNetwork(network, isConnected);
-              }
-            });
-          } else {
-            Session.set('isConnected', isConnected);
-            Session.set('network', false);
-            Session.set('latestBlock', 0);
-          }
-        }
-      });
-    }
-  });
+      }
+    });
+  }
 }
 
 // Check which accounts are available and if defaultAccount is still available,
 // Otherwise set it to localStorage, Session, or first element in accounts
 function checkAccounts() {
-  if (typeof web3 !== 'undefined') {
+  if (Session.get('isConnected') === true) {
     web3.eth.getAccounts((error, accounts) => {
       if (!error) {
         if (!_.contains(accounts, web3.eth.defaultAccount)) {
@@ -233,18 +230,48 @@ Accounts.ui.config({
   }
 });
 
-
 function googleApi() {
   if (Meteor.userId()) {
-    path = '/auth/fitness.activity.write';
-    path1 = 'fitness/v1/users/me/dataSources/'
-    path2 = 'fitness/v1/users/me/dataSources/derived:com.google.step_count.delta:com.google.android.gms:estimated_steps/datasets/1429848000000000000-1429906530000000000'
-    GoogleApi.get(path1, {}, function(answer) {
-      console.log(answer);
+    path = 'www.googleapis.com/fitness/v1/users/me/dataSources/';
+    pathDataSource = 'fitness/v1/users/me/dataSources/raw:com.google.weight:com.google.android.apps.fitness:user_input';
+    GoogleApi.get(path, {}, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+      }
     });
   }
 }
 
+//jean = 'https://www.googleapis.com/fitness/v1/users/me/dataSources/raw:com.google.weight:com.google.android.apps.fitness:user_input/datasets
+//https://www.googleapis.com/fitness/v1/users/me/dataSources/derived:com.google.calories.bmr:com.google.android.gms:from_height&weight/datasets'
+
+params = {
+"aggregateBy": [{
+"dataTypeName": "com.google.step_count.delta",
+"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+}],
+"bucketByTime": { "durationMillis": 86400000 },
+"startTimeMillis": 1300579515,
+"endTimeMillis": 1500579515
+}
+
+
+
+function otherGoogleApi() {
+  if (Meteor.userId()) {
+    //path = 'fitness/v1/users/me/dataSources/raw:com.google.weight:com.google.android.apps.fitness:user_input/datasets/1397513334728708316-1397515179728708316';
+    path = 'fitness/v1/users/me/dataset:aggregate'
+    GoogleApi.post(path, {data: params}, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+      }
+    })
+  }
+}
 
 
 Meteor.setInterval(checkNetwork, 2503);
@@ -253,7 +280,8 @@ Meteor.setInterval(checkIfUserExists, 15657);
 Meteor.setInterval(checkData, 16200);
 
 
-Meteor.setInterval(googleApi, 1000000);
+//Meteor.setInterval(googleApi, 10000);
+//Meteor.setInterval(otherGoogleApi, 1000);
 });
 
 Meteor.autorun(() => {

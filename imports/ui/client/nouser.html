@@ -2,15 +2,81 @@
   <div class="no-ethereum-section">
     <img class="img-maker-logo" alt="Maker" src="logo32.svg">
     <h1>Welcome !</h1>
-    <p>To begin, please choose a username.</p>
+    <!--p>To begin, please choose a username.</p>
       <br>
         <form class="register" >
           <input type="text" name="text" class="username" placeholder="Username" />
           <button type="submit" name="button" class="btn btn-default btn-submit-add-save-username">Register</button>
         </form>
-      <br>
-    <p>A MetaMask dialog will appear asking you to sign a dummy transaction. Transaction content should be "0xdeadbeefdeafbeef...". Do not sign if it is anything else.</p>
-  </div>
+      <br-->
+
+      <div class="noUser">
+        <form>
+          <ul class="items"></ul>
+          <fieldset class="username enable">
+            <div class="icon left"><i class="user"></i></div>
+            <input type="text" name="firstName" placeholder="What's your first name?" autofocus/>
+            <div class="icon right button"><i class="arrow"></i></div>
+          </fieldset>
+           <fieldset class="username">
+            <div class="icon left"><i class="user"></i></div>
+            <input type="text" name="lastName" placeholder="What's your last name?"/>
+            <div class="icon right button"><i class="arrow"></i></div>
+          </fieldset>
+          <fieldset class="username">
+            <div class="icon left"><i class="user"></i></div>
+            <input type="date" name="dateOfBirth" placeholder="When were you born?"/>
+            <div class="icon right button"><i class="arrow"></i></div>
+          </fieldset>
+           <fieldset class="username">
+            <div class="icon left"><i class="user"></i></div>
+            <input type="search" name="placeOfBirth" id="address-input" placeholder="Where were you born?"/>
+            <div class="icon right button"><i class="arrow"></i></div>
+          </fieldset>
+           <fieldset class="username">
+            <p>Are you a Patient or a Healthcare provider?</p>
+            <input type="button" name="patient" id="userTypePatient" style="display:none;" />
+            <div class="basicBox">
+              <label for="userTypePatient" style="width: 200px; text-align: center;">Patient</label>
+              <svg class="userTypePatient" width="200" height="65" viewBox="0 0 200 65" xmlns="http://www.w3.org/2000/svg">
+                <rect x='0' y='0' fill='none' width='200' height='65'/>
+              </svg>
+            </div>
+
+            <input type="button" name="healthCareProvider" id="userTypeHealthCareProvider" style="display:none;" />
+            <div class="basicBox">
+              <label for="userTypeHealthCareProvider" style="width: 200px; text-align: center;">Healthcare provider</label>
+              <svg class="userTypeHealthCareProvider" width="200" height="65" viewBox="0 0 200 65" xmlns="http://www.w3.org/2000/svg">
+                <rect x='0' y='0' fill='none' width='200' height='65'/>
+              </svg>
+            </div>
+          </fieldset>
+           <fieldset class="username">
+            <p>You can add data from Google Fit and Fibit</p>
+            <div class="basicBox">
+            Google Fit
+              <svg width="200" height="65" viewBox="0 0 200 65" xmlns="http://www.w3.org/2000/svg">
+                <rect x='0' y='0' fill='none' width='200' height='65'/>
+              </svg>
+            </div>
+
+
+            <div class="basicBox">
+              Fitbit
+              <svg width="200" height="65" viewBox="0 0 200 65" xmlns="http://www.w3.org/2000/svg">
+                <rect x='0' y='0' fill='none' width='200' height='65'/>
+              </svg>
+            </div>
+          </fieldset>
+          <fieldset class="thanks">
+            <div class="icon left"><i class="heart"></i></div>
+            <p>Thanks for your time</p>
+            <div class="icon right"><i class="heart"></i></div>
+          </fieldset>
+        </form>
+      </div>
+    <!--p>A MetaMask dialog will appear asking you to sign a dummy transaction. Transaction content should be "0xdeadbeefdeafbeef...". Do not sign if it is anything else.</p>
+-->  </div>
   <!-- IF ERROR -->
   <div class="message message-error">
     <div class="title">Something went wrong</div>
@@ -40,5 +106,4 @@
       <p>{{{loadingIcon}}} Waiting for user confirmation...</p>
     </div>
   {{/if}}
-
 </template>
