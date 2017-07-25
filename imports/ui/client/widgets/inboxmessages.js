@@ -153,7 +153,6 @@ Template.inboxmessages.events({
           _id = '';
           id.forEach(function(entry) {
             _id = entry._id;
-            console.log(_id);
             return _id
           });
           Meteor.call('chats.updateLastMessage', _id, chatId, content)

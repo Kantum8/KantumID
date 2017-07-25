@@ -9,8 +9,8 @@ import crypto from '/imports/utils/cryptoService';
 
 // CHECK FOR NETWORK
 function checkNetwork() {
-  if(typeof web3 !== undefined) {
-    web3.version.getNode((result, error) => {
+  if(typeof web3 !== 'undefined') {
+    web3.version.getNode((error) => {
       const isConnected = !error;
       //Check if we are synced
       if (isConnected !== false) {
